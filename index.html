@@ -330,23 +330,18 @@
 
 <!--
     ========================================================
-    LOGOS: Loaded from your GitHub repo images/ folder
+    LOGOS — matching your exact GitHub file names
     ========================================================
-    Your repo structure must be:
-    TBT-DATA/
-      ├── index.html
-      └── images/
-          ├── logo-left.png
-          └── logo-right.png
-
-    Change filenames below if yours are different (jpg, jpeg, etc.)
+    Your repo has these files in ROOT folder:
+      imageslogo-left.png.jpeg
+      imageslogo-right.png.png
     ========================================================
 -->
 <div id="printableArea">
     <div class="print-header">
         <div class="ph-logo-area">
             <img id="logoLeft" crossorigin="anonymous" src="imageslogo-left.png.jpeg" alt="POMPL Logo">
-            <img id="logoRight" class="logo-right" crossorigin="anonymous" src="imageslogo-right.png" alt="Prestige Group Logo">
+            <img id="logoRight" class="logo-right" crossorigin="anonymous" src="imageslogo-right.png.png" alt="Prestige Group Logo">
         </div>
         <div class="ph-info-box">
             <div class="ph-company-name">PRESTIGE OFFICE MANAGEMENT PRIVATE LIMITED</div>
@@ -402,16 +397,12 @@ var records=JSON.parse(localStorage.getItem(STORAGE_KEY))||[];
 var currentAttendees=[];
 var globalBuildings=[];
 var currentPreviewId=null;
-var logosReady=false;
 
-/* ===== LOGO CHECK — verify GitHub images loaded ===== */
 function checkLogosLoaded(){
     var l=document.getElementById('logoLeft'),r=document.getElementById('logoRight');
-    logosReady=(l.naturalWidth>0&&l.naturalHeight>0)&&(r.naturalWidth>0&&r.naturalHeight>0);
-    return logosReady;
+    return(l.naturalWidth>0&&l.naturalHeight>0)&&(r.naturalWidth>0&&r.naturalHeight>0);
 }
 
-/* ===== UTILITY ===== */
 function showLoading(t,s){document.getElementById('loadingText').textContent=t||'Processing...';document.getElementById('loadingSub').textContent=s||'Please wait';document.getElementById('loadingOverlay').classList.add('active')}
 function hideLoading(){document.getElementById('loadingOverlay').classList.remove('active')}
 
@@ -422,11 +413,10 @@ async function testConnection(){
     c.innerHTML+='<br>Testing Drive URL...';
     try{var r2=await fetch(DRIVE_URL,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"action=test"});c.innerHTML+='<br><span style="color:#34d399;">Drive: '+r2.status+' OK</span>'}catch(e2){c.innerHTML+='<br><span style="color:#fb7185;">Drive: '+e2.message+'</span>'}
     var ok=checkLogosLoaded();
-    c.innerHTML+='<br><br><span style="color:'+(ok?'#34d399':'#fb7185')+';">Logos from GitHub: '+(ok?'BOTH LOADED ✓':'MISSING — check images/ folder')+'</span>';
-    if(!ok)c.innerHTML+='<br><span style="color:#94a3b8;font-size:0.72em;">Needed: images/logo-left.png + images/logo-right.png</span>';
+    c.innerHTML+='<br><br><span style="color:'+(ok?'#34d399':'#fb7185')+';">Logos: '+(ok?'BOTH LOADED ✓':'MISSING ✗')+'</span>';
+    if(!ok)c.innerHTML+='<br><span style="color:#94a3b8;font-size:0.72em;">Looking for: imageslogo-left.png.jpeg & imageslogo-right.png.png</span>';
 }
 
-/* Wait for all images (including GitHub logos) to fully load */
 function waitForImages(el){
     return new Promise(function(resolve){
         var imgs=el.querySelectorAll('img');
@@ -482,7 +472,6 @@ function addAttendee(){
 function renderAttendeeTable(){var tb=document.getElementById('attendeesTableBody');tb.innerHTML='';for(var i=0;i<currentAttendees.length;i++){var a=currentAttendees[i];tb.innerHTML+='<tr><td><img src="'+a.photo+'" class="thumb"></td><td>'+a.name+'</td><td>'+a.idNum+'</td><td>'+a.buildings.join(', ')+'</td><td><button class="btn-del" onclick="removeAttendee('+i+')">X</button></td></tr>'}}
 function removeAttendee(i){currentAttendees.splice(i,1);renderAttendeeTable()}
 
-/* ===== SAVE ===== */
 async function saveRecord(){
     var btn=document.getElementById('btnSave');
     var topic=document.getElementById('topic').value.trim();
@@ -498,13 +487,7 @@ async function saveRecord(){
     if(!currentAttendees.length){alert("Add at least one attendee.");return}
     if(isCanvasBlank('condSigCanvas')){alert("Conducted By signature is required.");return}
     if(typeof html2pdf==='undefined'){alert("PDF library not loaded! Please refresh.");return}
-
-    /* Check if logos loaded from GitHub */
-    if(!checkLogosLoaded()){
-        var proceed=confirm("WARNING: Logos not loaded from GitHub!\n\nPDF will have blank logo areas.\n\nCheck that images/logo-left.png and images/logo-right.png exist in your repo.\n\nContinue anyway?");
-        if(!proceed)return;
-    }
-
+    if(!checkLogosLoaded()){var proceed=confirm("WARNING: Logos not loaded!\n\nPDF will have blank logo areas.\n\nContinue anyway?");if(!proceed)return}
     btn.disabled=true;showLoading("Step 1/2: Saving to Google Sheet...","");
     var finalBuildings=globalBuildings.slice();var caIdx=finalBuildings.indexOf('COMMON AREA');
     if(caIdx!==-1){var cd=document.getElementById('commonAreaInput').value.trim();if(cd)finalBuildings[caIdx]='COMMON AREA: '+cd}
@@ -515,7 +498,6 @@ async function saveRecord(){
     showLoading("Step 2/2: Generating PDF & uploading to Drive...",record.topic);
     try{
         populatePrintable(record.id);document.body.classList.add('pdf-capture');window.scrollTo(0,0);
-        /* Wait for GitHub logos to load before capturing */
         await waitForImages(document.getElementById('printableArea'));
         await new Promise(function(r){setTimeout(r,500)});
         var pdfUri=await html2pdf().set({margin:0,image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,logging:false,allowTaint:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(document.getElementById('printableArea')).output('datauristring');
@@ -532,7 +514,6 @@ async function saveRecord(){
     updateStorage(record);btn.disabled=false;document.getElementById('stepProgress').textContent='';resetForm();renderDashboard();
 }
 
-/* ===== DRIVE UPLOAD (retry) ===== */
 async function uploadToDrive(id){
     if(typeof html2pdf==='undefined'){alert("PDF library not loaded!");return}
     var rec=records.find(function(r){return r.id===id});if(!rec)return;
@@ -557,7 +538,6 @@ async function uploadToDrive(id){
 function uploadCurrentToDrive(){if(currentPreviewId)uploadToDrive(currentPreviewId)}
 function updateStorage(rec){var i=records.findIndex(function(r){return r.id===rec.id});if(i!==-1){records[i]=rec;localStorage.setItem(STORAGE_KEY,JSON.stringify(records))}}
 
-/* ===== PDF DOWNLOAD ===== */
 async function downloadRecord(id){
     if(typeof html2pdf==='undefined'){alert("PDF library not loaded!");return}
     var rec=records.find(function(r){return r.id===id});if(!rec)return;
@@ -573,7 +553,6 @@ async function downloadRecord(id){
 }
 function downloadCurrentPDF(){if(currentPreviewId)downloadRecord(currentPreviewId)}
 
-/* ===== PREVIEW ===== */
 function populatePrintable(id){
     var r=records.find(function(x){return x.id===id});if(!r)return;
     document.getElementById('p_topic').textContent=r.topic||'-';
@@ -600,7 +579,6 @@ function previewRecord(id){currentPreviewId=id;populatePrintable(id);document.bo
 function closePreview(){document.body.classList.remove('preview-mode');document.getElementById('printableArea').style.transform='none';currentPreviewId=null}
 function directPrint(){window.print()}
 
-/* ===== RESET ===== */
 function resetForm(){
     document.getElementById('topic').value='';document.getElementById('conductor').value='';
     document.getElementById('designation').value='';document.getElementById('tbtInfo').value='';
@@ -612,10 +590,8 @@ function resetForm(){
     document.querySelectorAll('.building-option').forEach(function(e){e.classList.remove('selected')});
 }
 
-/* ===== DELETE ===== */
 function deleteRecord(id){if(confirm("Delete this record?")){records=records.filter(function(r){return r.id!==id});localStorage.setItem(STORAGE_KEY,JSON.stringify(records));renderDashboard()}}
 
-/* ===== CSV ===== */
 function downloadFilteredData(){
     var sd=document.getElementById('filterStartDate').value,ed=document.getElementById('filterEndDate').value,f=records;
     if(sd&&ed)f=records.filter(function(r){return r.date>=sd&&r.date<=ed});
@@ -625,7 +601,6 @@ function downloadFilteredData(){
     var l=document.createElement("a");l.setAttribute("href",encodeURI(csv));l.setAttribute("download",(sd&&ed?'TBT_'+sd+'_to_'+ed+'.csv':'TBT_All.csv'));document.body.appendChild(l);l.click();document.body.removeChild(l);
 }
 
-/* ===== DASHBOARD ===== */
 function renderDashboard(){
     var tb=document.getElementById('mainTableBody');tb.innerHTML='';
     var now=new Date(),t3=new Date();t3.setDate(now.getDate()-3),w1=new Date();w1.setDate(now.getDate()-7);
@@ -651,7 +626,6 @@ function renderDashboard(){
     }
 }
 
-/* ===== INIT ===== */
 window.onload=function(){
     setupCanvas('condSigCanvas');setupCanvas('attSigCanvas');
     document.getElementById('date').valueAsDate=new Date();
