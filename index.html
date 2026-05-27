@@ -24,9 +24,6 @@
     .nav-buttons button{background:transparent;border:1px solid var(--border);color:var(--text-muted);padding:8px 20px;border-radius:var(--radius-sm);cursor:pointer;transition:all 0.25s ease;font-family:'Poppins',sans-serif;font-weight:500;font-size:0.85rem;position:relative;overflow:hidden}
     .nav-buttons button:hover{color:var(--text);border-color:var(--border-hover);background:rgba(255,255,255,0.03)}
     .nav-buttons button.active{background:var(--primary);color:white;border-color:var(--primary);box-shadow:0 0 20px var(--primary-glow),var(--shadow-sm)}
-    .btn-settings{padding:8px 12px !important;font-size:1.1rem !important;line-height:1;position:relative}
-    .btn-settings .dot{position:absolute;top:5px;right:5px;width:8px;height:8px;background:var(--danger);border-radius:50%;border:1.5px solid var(--bg);animation:dotPulse 2s ease-in-out infinite;display:none}
-    @keyframes dotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.7)}}
     .view-section{display:none;padding:32px 20px 120px;max-width:1100px;margin:0 auto;position:relative;z-index:1;animation:viewEnter 0.5s cubic-bezier(0.22,1,0.36,1)}
     .view-section.active{display:block}
     @keyframes viewEnter{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
@@ -125,21 +122,6 @@
     .modal-btn:hover{box-shadow:0 6px 24px var(--primary-glow)}
     .modal-close{color:var(--text-muted);margin-top:16px;display:inline-block;cursor:pointer;font-size:0.85rem;background:none;border:none;transition:color 0.2s}
     .modal-close:hover{color:var(--danger)}
-    .settings-modal-box{width:440px;padding:32px 28px}
-    .settings-modal-box .sub{color:var(--text-muted);font-size:0.82rem;margin-bottom:24px}
-    .logo-pair{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
-    .logo-slot{background:rgba(255,255,255,0.03);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:14px;text-align:center;transition:all 0.3s}
-    .logo-slot.has-logo{border-color:rgba(16,185,129,0.4);background:rgba(16,185,129,0.04)}
-    .logo-slot-label{font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;font-weight:600;margin-bottom:10px}
-    .logo-slot-preview{width:100%;height:60px;display:flex;align-items:center;justify-content:center;border-radius:6px;overflow:hidden;margin-bottom:10px;background:rgba(255,255,255,0.02);border:1px dashed rgba(255,255,255,0.06)}
-    .logo-slot-preview img{max-width:100%;max-height:100%;object-fit:contain}
-    .logo-slot-preview .empty{color:var(--text-muted);font-size:0.7rem;opacity:0.4}
-    .logo-slot-status{font-size:0.7rem;font-weight:600}
-    .logo-slot-status.ok{color:#34d399}
-    .logo-slot-status.missing{color:var(--rose)}
-    .btn-logo-remove{background:rgba(244,63,94,0.1);color:var(--rose);border:1px solid rgba(244,63,94,0.25);font-size:0.68rem;padding:3px 10px;border-radius:4px;margin-top:6px;transition:0.2s;font-family:'Poppins';font-weight:500}
-    .btn-logo-remove:hover{background:rgba(244,63,94,0.2)}
-    .settings-note{font-size:0.72rem;color:var(--text-muted);text-align:center;opacity:0.6;margin-top:12px}
     .preview-bar{display:none;background:rgba(10,14,26,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:14px 20px;position:fixed;top:0;left:0;right:0;z-index:2000;box-shadow:0 4px 24px rgba(0,0,0,0.4);justify-content:center;gap:12px;border-bottom:2px solid var(--primary)}
     .step-progress{text-align:center;margin-top:12px;font-size:0.82rem;color:var(--accent);font-weight:600;min-height:22px;letter-spacing:0.3px}
     .date-filter-grid{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;margin-bottom:16px;align-items:end}
@@ -208,7 +190,7 @@
     .pt-sig{height:20px;width:100%;object-fit:contain;background-color:white;display:block}
     ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:3px}::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.2)}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}}
-    @media(max-width:768px){.date-filter-grid{grid-template-columns:1fr;gap:14px}.input-grid{grid-template-columns:1fr;gap:14px}.building-selector{grid-template-columns:1fr 1fr}.form-section{padding:18px;border-radius:12px}.app-nav{padding:0 14px}.nav-brand{font-size:1.05rem}.nav-buttons button{padding:7px 12px;font-size:0.78rem}h1{font-size:1.3rem;margin-bottom:24px}.stats-grid{grid-template-columns:1fr}.permit-grid{grid-template-columns:1fr 1fr}.view-section{padding:20px 14px 100px}.action-cell{flex-direction:column;align-items:flex-start}.logo-pair{grid-template-columns:1fr}.settings-modal-box{width:92vw;padding:24px 18px}}
+    @media(max-width:768px){.date-filter-grid{grid-template-columns:1fr;gap:14px}.input-grid{grid-template-columns:1fr;gap:14px}.building-selector{grid-template-columns:1fr 1fr}.form-section{padding:18px;border-radius:12px}.app-nav{padding:0 14px}.nav-brand{font-size:1.05rem}.nav-buttons button{padding:7px 12px;font-size:0.78rem}h1{font-size:1.3rem;margin-bottom:24px}.stats-grid{grid-template-columns:1fr}.permit-grid{grid-template-columns:1fr 1fr}.view-section{padding:20px 14px 100px}.action-cell{flex-direction:column;align-items:flex-start}}
     @media(max-width:480px){.permit-grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -221,32 +203,8 @@
     <div class="nav-buttons">
         <button id="nav-entry" class="active" onclick="switchView('entry')">Entry Form</button>
         <button id="nav-history" onclick="requestHistoryAccess()">Dashboard</button>
-        <button class="btn-settings" id="btnSettings" onclick="openSettings()" title="Logo Settings">⚙️<span class="dot" id="settingsDot"></span></button>
     </div>
 </nav>
-
-<div id="settingsModal" class="modal-overlay">
-    <div class="modal-box settings-modal-box">
-        <h3>⚙️ Logo Settings</h3>
-        <p class="sub">Upload once — saved permanently in this browser</p>
-        <div class="logo-pair">
-            <div class="logo-slot" id="slotLeft">
-                <div class="logo-slot-label">Left Logo (POMPL)</div>
-                <div class="logo-slot-preview" id="slotLeftPreview"><span class="empty">No logo</span></div>
-                <input type="file" id="settingsLogoLeft" accept="image/*" onchange="handleSettingsLogo('left',this)">
-                <div class="logo-slot-status missing" id="slotLeftStatus">Not uploaded</div>
-            </div>
-            <div class="logo-slot" id="slotRight">
-                <div class="logo-slot-label">Right Logo (Prestige)</div>
-                <div class="logo-slot-preview" id="slotRightPreview"><span class="empty">No logo</span></div>
-                <input type="file" id="settingsLogoRight" accept="image/*" onchange="handleSettingsLogo('right',this)">
-                <div class="logo-slot-status missing" id="slotRightStatus">Not uploaded</div>
-            </div>
-        </div>
-        <button class="modal-btn" onclick="closeSettings()">Done</button>
-        <div class="settings-note">Logos are stored in this browser only. If you switch browsers or clear data, re-upload here.</div>
-    </div>
-</div>
 
 <div id="passwordModal" class="modal-overlay">
     <div class="modal-box">
@@ -370,11 +328,25 @@
     <button class="btn-retry" onclick="uploadCurrentToDrive()">☁️ Upload to Drive</button>
 </div>
 
+<!--
+    ========================================================
+    LOGOS: Loaded from your GitHub repo images/ folder
+    ========================================================
+    Your repo structure must be:
+    TBT-DATA/
+      ├── index.html
+      └── images/
+          ├── logo-left.png
+          └── logo-right.png
+
+    Change filenames below if yours are different (jpg, jpeg, etc.)
+    ========================================================
+-->
 <div id="printableArea">
     <div class="print-header">
         <div class="ph-logo-area">
-            <img id="logoLeft" src="" alt="POMPL Logo" style="display:none;">
-            <img id="logoRight" class="logo-right" src="" alt="Prestige Group Logo" style="display:none;">
+            <img id="logoLeft" crossorigin="anonymous" src="images/logo-left.png" alt="POMPL Logo">
+            <img id="logoRight" class="logo-right" crossorigin="anonymous" src="images/logo-right.png" alt="Prestige Group Logo">
         </div>
         <div class="ph-info-box">
             <div class="ph-company-name">PRESTIGE OFFICE MANAGEMENT PRIVATE LIMITED</div>
@@ -425,67 +397,19 @@
 var SHEET_URL="https://script.google.com/macros/s/AKfycbxIhD5uKQcHSK6phKKtPdQqr54i8ONqGbJzbzfEmVdiBTrx1BMN8aT_CWtzlM8LAuRQ/exec";
 var DRIVE_URL="https://script.google.com/macros/s/AKfycbybN9IHg_JlV06-umOnaRjq3HHX8VYXlwMmGHveh3P4KBzuKEy-sDi3qQz6Z429runabQ/exec";
 var STORAGE_KEY="prestige_tbt_data";
-var LOGO_STORAGE_KEY="prestige_tbt_logos";
 var PASSWORD="1234";
 var records=JSON.parse(localStorage.getItem(STORAGE_KEY))||[];
 var currentAttendees=[];
 var globalBuildings=[];
 var currentPreviewId=null;
+var logosReady=false;
 
-/* ===== LOGO MANAGEMENT ===== */
-function getStoredLogos(){try{return JSON.parse(localStorage.getItem(LOGO_STORAGE_KEY))||{}}catch(e){return{}}}
-function saveLogosToStorage(logos){try{localStorage.setItem(LOGO_STORAGE_KEY,JSON.stringify(logos))}catch(e){console.warn("Logo storage failed:",e)}}
-function areLogosReady(){var l=getStoredLogos();return(l.left&&l.left.length>100)&&(l.right&&l.right.length>100)}
-function injectLogosToPrintable(){
-    var l=getStoredLogos();
-    var li=document.getElementById('logoLeft'),ri=document.getElementById('logoRight');
-    if(l.left&&l.left.length>100){li.src=l.left;li.style.display='block'}else{li.src='';li.style.display='none'}
-    if(l.right&&l.right.length>100){ri.src=l.right;ri.style.display='block'}else{ri.src='';ri.style.display='none'}
+/* ===== LOGO CHECK — verify GitHub images loaded ===== */
+function checkLogosLoaded(){
+    var l=document.getElementById('logoLeft'),r=document.getElementById('logoRight');
+    logosReady=(l.naturalWidth>0&&l.naturalHeight>0)&&(r.naturalWidth>0&&r.naturalHeight>0);
+    return logosReady;
 }
-function openSettings(){refreshSettingsUI();document.getElementById('settingsModal').style.display='flex'}
-function closeSettings(){document.getElementById('settingsModal').style.display='none';updateSettingsDot()}
-function refreshSettingsUI(){
-    var l=getStoredLogos();var sides=['left','right'];
-    for(var s=0;s<sides.length;s++){
-        var side=sides[s],cap=side.charAt(0).toUpperCase()+side.slice(1);
-        var pv=document.getElementById('slot'+cap+'Preview');
-        var st=document.getElementById('slot'+cap+'Status');
-        var sl=document.getElementById('slot'+cap);
-        if(l[side]&&l[side].length>100){
-            pv.innerHTML='<img src="'+l[side]+'" alt="'+cap+'">';
-            st.textContent='✓ Saved ('+Math.round(l[side].length/1024)+'KB)';
-            st.className='logo-slot-status ok';sl.classList.add('has-logo');
-        }else{
-            pv.innerHTML='<span class="empty">No logo</span>';
-            st.textContent='Not uploaded';st.className='logo-slot-status missing';sl.classList.remove('has-logo');
-        }
-    }
-}
-function handleSettingsLogo(side,inputEl){
-    var file=inputEl.files&&inputEl.files[0];
-    if(!file||!file.type.startsWith('image/')){if(file)alert("Please select an image file.");return}
-    if(file.size>3*1024*1024){alert("Image too large. Use under 3MB.");inputEl.value='';return}
-    var reader=new FileReader();
-    reader.onload=function(e){
-        var img=new Image();
-        img.onload=function(){
-            var canvas=document.createElement('canvas');
-            var maxW=800,maxH=400,w=img.naturalWidth,h=img.naturalHeight;
-            if(w>maxW){h=Math.round(h*(maxW/w));w=maxW}
-            if(h>maxH){w=Math.round(w*(maxH/h));h=maxH}
-            canvas.width=Math.max(1,w);canvas.height=Math.max(1,h);
-            var ctx=canvas.getContext('2d');
-            ctx.fillStyle="white";ctx.fillRect(0,0,canvas.width,canvas.height);
-            ctx.drawImage(img,0,0,canvas.width,canvas.height);
-            var base64=canvas.toDataURL('image/jpeg',0.85);
-            var logos=getStoredLogos();logos[side]=base64;saveLogosToStorage(logos);
-            refreshSettingsUI();
-        };
-        img.src=e.target.result;
-    };
-    reader.readAsDataURL(file);inputEl.value='';
-}
-function updateSettingsDot(){document.getElementById('settingsDot').style.display=areLogosReady()?'none':'block'}
 
 /* ===== UTILITY ===== */
 function showLoading(t,s){document.getElementById('loadingText').textContent=t||'Processing...';document.getElementById('loadingSub').textContent=s||'Please wait';document.getElementById('loadingOverlay').classList.add('active')}
@@ -497,10 +421,28 @@ async function testConnection(){
     try{var r=await fetch(SHEET_URL,{method:"POST",body:JSON.stringify({action:"test"})});c.innerHTML+='<br><span style="color:#34d399;">Sheet: '+r.status+' OK</span>'}catch(e){c.innerHTML+='<br><span style="color:#fb7185;">Sheet: '+e.message+'</span>'}
     c.innerHTML+='<br>Testing Drive URL...';
     try{var r2=await fetch(DRIVE_URL,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"action=test"});c.innerHTML+='<br><span style="color:#34d399;">Drive: '+r2.status+' OK</span>'}catch(e2){c.innerHTML+='<br><span style="color:#fb7185;">Drive: '+e2.message+'</span>'}
-    var lg=getStoredLogos(),lOk=lg.left&&lg.left.length>100,rOk=lg.right&&lg.right.length>100;
-    c.innerHTML+='<br><br><span style="color:'+(lOk?'#34d399':'#fb7185')+';">Left Logo: '+(lOk?'OK ('+Math.round(lg.left.length/1024)+'KB)':'MISSING')+'</span>';
-    c.innerHTML+='<br><span style="color:'+(rOk?'#34d399':'#fb7185')+';">Right Logo: '+(rOk?'OK ('+Math.round(lg.right.length/1024)+'KB)':'MISSING')+'</span>';
-    if(!lOk||!rOk)c.innerHTML+='<br><br><span style="color:var(--accent);">Click ⚙️ in navbar to upload logos.</span>';
+    var ok=checkLogosLoaded();
+    c.innerHTML+='<br><br><span style="color:'+(ok?'#34d399':'#fb7185')+';">Logos from GitHub: '+(ok?'BOTH LOADED ✓':'MISSING — check images/ folder')+'</span>';
+    if(!ok)c.innerHTML+='<br><span style="color:#94a3b8;font-size:0.72em;">Needed: images/logo-left.png + images/logo-right.png</span>';
+}
+
+/* Wait for all images (including GitHub logos) to fully load */
+function waitForImages(el){
+    return new Promise(function(resolve){
+        var imgs=el.querySelectorAll('img');
+        var pending=[];
+        imgs.forEach(function(img){
+            if(img.src&&img.src.length>10){
+                if(img.complete&&img.naturalWidth>0)return;
+                pending.push(img);
+            }
+        });
+        if(!pending.length){resolve();return}
+        var n=0,t=pending.length;
+        function done(){n++;if(n>=t)resolve()}
+        pending.forEach(function(img){img.onload=done;img.onerror=done});
+        setTimeout(resolve,8000);
+    });
 }
 
 function setupCanvas(id){
@@ -518,7 +460,6 @@ function clearCanvas(id){var c=document.getElementById(id);if(c)c.getContext('2d
 function isCanvasBlank(id){var c=document.getElementById(id);if(!c)return true;var d=c.getContext('2d').getImageData(0,0,c.width,c.height).data;for(var i=0;i<d.length;i+=4){if(d[i]||d[i+1]||d[i+2]||d[i+3])return false}return true}
 function getCanvasDataURL(id){var c=document.getElementById(id);if(!c)return '';var t=document.createElement('canvas'),x=t.getContext('2d');t.width=c.width;t.height=c.height;x.fillStyle="white";x.fillRect(0,0,t.width,t.height);x.drawImage(c,0,0);return t.toDataURL('image/jpeg',0.5)}
 function compressImage(file,cb){var r=new FileReader();r.readAsDataURL(file);r.onload=function(e){var img=new Image();img.src=e.target.result;img.onload=function(){var c=document.createElement('canvas');c.width=100;c.height=100;c.getContext('2d').drawImage(img,0,0,100,100);cb(c.toDataURL('image/jpeg',0.5))}}}
-function waitForImages(el){return new Promise(function(resolve){var imgs=el.querySelectorAll('img[src]');var v=[];imgs.forEach(function(img){if(img.src&&img.src.length>10&&!img.src.startsWith('data:'))v.push(img)});if(!v.length){resolve();return}var n=0,t=v.length;function done(){n++;if(n>=t)resolve()}v.forEach(function(img){if(img.complete&&img.naturalWidth>0)done();else{img.onload=done;img.onerror=done}});setTimeout(resolve,5000)})}
 function setupConditionalInput(selId,inpId){var s=document.getElementById(selId),i=document.getElementById(inpId);if(!s||!i)return;s.addEventListener('change',function(){if(this.value==='OTHER'||this.value==='Other'){i.style.display='block';i.value='';i.focus()}else{i.style.display='none'}})}
 function toggleBuilding(el,val){el.classList.toggle('selected');var sel=el.classList.contains('selected');if(sel){if(globalBuildings.indexOf(val)===-1)globalBuildings.push(val)}else{globalBuildings=globalBuildings.filter(function(b){return b!==val})}if(val==='COMMON AREA'){var inp=document.getElementById('commonAreaInput');if(sel){inp.style.display='block';inp.value='';inp.focus()}else{inp.style.display='none';inp.value=''}}}
 function formatDateCustom(ds){if(!ds)return '-';var d=new Date(ds);if(isNaN(d.getTime()))return '-';return String(d.getDate()).padStart(2,'0')+'-'+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]+'-'+d.getFullYear()}
@@ -557,6 +498,13 @@ async function saveRecord(){
     if(!currentAttendees.length){alert("Add at least one attendee.");return}
     if(isCanvasBlank('condSigCanvas')){alert("Conducted By signature is required.");return}
     if(typeof html2pdf==='undefined'){alert("PDF library not loaded! Please refresh.");return}
+
+    /* Check if logos loaded from GitHub */
+    if(!checkLogosLoaded()){
+        var proceed=confirm("WARNING: Logos not loaded from GitHub!\n\nPDF will have blank logo areas.\n\nCheck that images/logo-left.png and images/logo-right.png exist in your repo.\n\nContinue anyway?");
+        if(!proceed)return;
+    }
+
     btn.disabled=true;showLoading("Step 1/2: Saving to Google Sheet...","");
     var finalBuildings=globalBuildings.slice();var caIdx=finalBuildings.indexOf('COMMON AREA');
     if(caIdx!==-1){var cd=document.getElementById('commonAreaInput').value.trim();if(cd)finalBuildings[caIdx]='COMMON AREA: '+cd}
@@ -566,7 +514,9 @@ async function saveRecord(){
     try{var sheetResp=await fetch(SHEET_URL,{method:"POST",body:JSON.stringify(sheetPayload)});var sheetData=await sheetResp.json();if(sheetData.status!=="success"){hideLoading();alert("Sheet Error: "+(sheetData.message||'Unknown'));btn.disabled=false;renderDashboard();return}}catch(err){hideLoading();alert("Sheet Connection Failed!\n\n"+err.message+"\n\n1. Use HTTP server (not file://)\n2. Redeploy Sheet Script\n3. Access = Anyone");btn.disabled=false;renderDashboard();return}
     showLoading("Step 2/2: Generating PDF & uploading to Drive...",record.topic);
     try{
-        injectLogosToPrintable();populatePrintable(record.id);document.body.classList.add('pdf-capture');window.scrollTo(0,0);
+        populatePrintable(record.id);document.body.classList.add('pdf-capture');window.scrollTo(0,0);
+        /* Wait for GitHub logos to load before capturing */
+        await waitForImages(document.getElementById('printableArea'));
         await new Promise(function(r){setTimeout(r,500)});
         var pdfUri=await html2pdf().set({margin:0,image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,logging:false,allowTaint:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(document.getElementById('printableArea')).output('datauristring');
         document.body.classList.remove('pdf-capture');
@@ -588,7 +538,8 @@ async function uploadToDrive(id){
     var rec=records.find(function(r){return r.id===id});if(!rec)return;
     showLoading("Generating PDF & uploading to Drive...",rec.topic);
     try{
-        injectLogosToPrintable();populatePrintable(id);document.body.classList.add('pdf-capture');window.scrollTo(0,0);
+        populatePrintable(id);document.body.classList.add('pdf-capture');window.scrollTo(0,0);
+        await waitForImages(document.getElementById('printableArea'));
         await new Promise(function(r){setTimeout(r,500)});
         var pdfUri=await html2pdf().set({margin:0,image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,allowTaint:true,logging:false,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(document.getElementById('printableArea')).output('datauristring');
         document.body.classList.remove('pdf-capture');
@@ -612,7 +563,8 @@ async function downloadRecord(id){
     var rec=records.find(function(r){return r.id===id});if(!rec)return;
     showLoading("Generating PDF...","Please wait");
     try{
-        injectLogosToPrintable();populatePrintable(id);document.body.classList.add('pdf-capture');window.scrollTo(0,0);
+        populatePrintable(id);document.body.classList.add('pdf-capture');window.scrollTo(0,0);
+        await waitForImages(document.getElementById('printableArea'));
         await new Promise(function(r){setTimeout(r,500)});
         var fn='Prestige_TBT_'+(rec.date||'nodate')+'_'+(rec.topic||'Record').replace(/[^a-z0-9]/gi,'_').substring(0,20)+'.pdf';
         await html2pdf().set({margin:0,filename:fn,image:{type:'jpeg',quality:1.0},html2canvas:{scale:3,useCORS:true,allowTaint:true,logging:false,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(document.getElementById('printableArea')).save();
@@ -644,7 +596,7 @@ function populatePrintable(id){
         tb.innerHTML+='<tr><td class="pt-col-no">'+(i+1)+'</td><td class="pt-col-photo">'+ph+'</td><td class="pt-col-name">'+a.name+'</td><td class="pt-col-building" style="font-size:7px;">'+bl.join(', ')+'</td><td class="pt-col-comp">'+a.company+'</td><td class="pt-col-desig">'+a.desig+'</td><td class="pt-col-id">'+a.idNum+'</td><td class="pt-col-sig">'+sg+'</td></tr>';
     }
 }
-function previewRecord(id){currentPreviewId=id;injectLogosToPrintable();populatePrintable(id);document.body.classList.add('preview-mode');window.scrollTo(0,0);autoScalePreview()}
+function previewRecord(id){currentPreviewId=id;populatePrintable(id);document.body.classList.add('preview-mode');window.scrollTo(0,0);autoScalePreview()}
 function closePreview(){document.body.classList.remove('preview-mode');document.getElementById('printableArea').style.transform='none';currentPreviewId=null}
 function directPrint(){window.print()}
 
@@ -707,7 +659,6 @@ window.onload=function(){
     setupConditionalInput('department','otherDeptInput');
     setupConditionalInput('permitType','otherPermitInput');
     document.getElementById('passwordInput').addEventListener('keypress',function(e){if(e.key==='Enter')verifyPassword()});
-    updateSettingsDot();
 };
 </script>
 </body>
