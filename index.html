@@ -147,7 +147,6 @@
         position: relative;
         transform-origin: top center;
         box-sizing: border-box;
-        /* overflow: visible;  Removed hidden to allow page break if needed */
     }
 
     /* Print Modes */
@@ -185,7 +184,7 @@
         border: 1px solid black;
         margin-bottom: 5px;
         padding: 2px;
-        break-inside: avoid; /* Keep title with list */
+        break-inside: avoid;
     }
 
     .ph-section-header {
@@ -200,26 +199,26 @@
         letter-spacing: 1px;
     }
 
-    .ph-tick-list {
+    .ph-tick-grid {
         padding: 5px;
         display: grid; 
-        grid-template-columns: 1fr 1fr; /* 2 Columns for readability */
-        column-gap: 15px; /* Distinct space between columns */
-        row-gap: 3px; /* Space between rows */
-        font-size: 7.5px; /* Readable font size */
-        line-height: 1.35; /* Prevent overlap */
+        grid-template-columns: 1fr 1fr; 
+        column-gap: 15px; 
+        row-gap: 3px; 
+        font-size: 7.5px; 
+        line-height: 1.35; 
         font-family: 'Arial', sans-serif;
     }
     
     .ph-tick-item {
         display: flex; 
-        align-items: flex-start; /* Aligns checkbox with FIRST LINE of text */
+        align-items: flex-start; 
         gap: 6px;
         margin-bottom: 1px;
     }
     
     .ph-tick-item input {
-        transform: scale(0.9); /* Larger scale for visibility */
+        transform: scale(0.9); 
         margin: 1px 0 0 0;
         accent-color: black;
         flex-shrink: 0;
@@ -235,13 +234,13 @@
         width: 100%; 
         border-collapse: collapse; 
         font-size: 7.5px; 
-        table-layout: fixed; /* Crucial for alignment */
+        table-layout: fixed; 
         border: 1px solid black;
     }
 
     .ph-hazard-table th, .ph-hazard-table td { 
         border: 1px solid black; 
-        padding: 4px; /* More padding for space */
+        padding: 4px; 
         text-align: center; 
         vertical-align: middle;
     }
@@ -253,7 +252,6 @@
         color: black;
     }
 
-    /* Explicit Widths */
     .ph-hazard-table td:first-child { 
         text-align: left; 
         width: 60%; 
@@ -288,6 +286,31 @@
     .ph-sig-item { text-align: center; width: 140px; }
     .ph-sig-img { height: 30px; width: 100%; border-bottom: 1px dotted #000; margin-bottom: 2px; object-fit: contain; }
     .ph-sig-label { font-size: 8px; font-weight: bold; color: black; }
+
+    /* --- ATTACHMENT SECTION (LAST PAGE) --- */
+    #p_attachmentContainer {
+        display: none;
+        margin-top: 20px;
+        border: 1px solid black;
+        padding: 10px;
+        page-break-before: always; /* Forces this to start on a new page */
+    }
+    
+    #p_attachmentContainer h4 {
+        text-align: center;
+        text-decoration: underline;
+        margin-bottom: 10px;
+        font-size: 10px;
+        font-weight: bold;
+    }
+
+    #p_attachmentContent img {
+        max-width: 100%;
+        max-height: 1100px; /* Prevent huge images from spanning pages */
+        display: block;
+        margin: 0 auto;
+        border: 1px solid #ccc;
+    }
 
     /* --- ATTENDANCE TABLE --- */
     .print-table { width: 100%; border-collapse: collapse; font-size: 7.5px; border: 1px solid black; margin-top: 5px; table-layout: fixed; }
@@ -336,7 +359,7 @@
 <div id="view-entry" class="view-section active">
     <h1>TBT Tool Box Talk</h1>
     <button class="btn-test" onclick="testConnection()">🧪 Test System Connections</button>
-    <div class="debug-box" id="debugBox"><div class="debug-label">Debug Output:</div><div id="debugContent"></div></div>
+    <div class="debug-box" id="debugBox" style="display:none; margin-bottom:15px; background:rgba(0,0,0,0.3); padding:10px; border-radius:8px; border:1px solid var(--border);"><div class="debug-label" style="color:var(--accent); font-weight:bold; margin-bottom:5px;">Debug Output:</div><div id="debugContent" style="font-family:monospace; font-size:0.8rem;"></div></div>
     
     <div class="form-section">
         <span class="section-title">1. Main Details</span>
@@ -402,6 +425,15 @@
             <div style="grid-column:span 2;">
                 <label class="required">TBT Topic / Covered Information</label>
                 <textarea id="tbtInfo" placeholder="Brief description of the TBT topic..." style="height:80px;" required></textarea>
+            </div>
+
+            <!-- NEW ATTACHMENT FIELD -->
+            <div style="grid-column:span 2;">
+                <label>Supporting Document / Attachment (Optional)</label>
+                <input type="file" id="tbtAttachment" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx">
+                <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">
+                    * Uploaded photo will appear on the last page of the PDF and saved to Drive.
+                </div>
             </div>
         </div>
     </div>
@@ -531,6 +563,12 @@
             </tr></thead>
             <tbody id="p_attendeesBody"></tbody>
         </table>
+    </div>
+
+    <!-- ATTACHMENT CONTAINER (FORCES NEW PAGE) -->
+    <div id="p_attachmentContainer">
+        <h4>ATTACHMENT / SUPPORTING DOCUMENT</h4>
+        <div id="p_attachmentContent"></div>
     </div>
 </div>
 
@@ -704,6 +742,20 @@ function waitForImages(el){
     });
 }
 
+// Helper to read file as Base64
+function readFileAsBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve({
+            name: file.name,
+            base64: reader.result.split(',')[1], // Remove data URI prefix
+            mime: file.type
+        });
+        reader.onerror = error => reject(error);
+        reader.readAsDataURL(file);
+    });
+}
+
 function getChecklistKey(permitType) {
     if(!permitType) return null;
     if(permitType === "Confined Space") return "Confined Space";
@@ -859,7 +911,19 @@ async function saveRecord(){
     var tbtNum = document.getElementById('tbtNumber').value;
     var tbtTime = document.getElementById('time').value;
 
-    var record={id:Date.now(),timestamp:new Date().toISOString(),topic:topic,department:dept,project:document.getElementById('project').value,conductor:document.getElementById('conductor').value.trim(),designation:document.getElementById('designation').value.trim(),date:document.getElementById('date').value, time:tbtTime, tbtNumber:tbtNum, permitNo:document.getElementById('permitNo').value.trim(),permitType:pType,tbtInfo:document.getElementById('tbtInfo').value.trim(),buildings:finalBuildings,conductorSig:getCanvasDataURL('condSigCanvas'),attendees:currentAttendees.slice(),driveUrl:null,driveError:null, tickPoints: tickPointsChecked, hazardChecklist: checklistData};
+    // Handle Attachment (Read file and store in record)
+    var fileInput = document.getElementById('tbtAttachment');
+    var attachmentData = null;
+    if(fileInput.files && fileInput.files.length > 0) {
+        try {
+            attachmentData = await readFileAsBase64(fileInput.files[0]);
+        } catch (err) {
+            console.error(err);
+            showToast("Error reading attachment file.", "error");
+        }
+    }
+
+    var record={id:Date.now(),timestamp:new Date().toISOString(),topic:topic,department:dept,project:document.getElementById('project').value,conductor:document.getElementById('conductor').value.trim(),designation:document.getElementById('designation').value.trim(),date:document.getElementById('date').value, time:tbtTime, tbtNumber:tbtNum, permitNo:document.getElementById('permitNo').value.trim(),permitType:pType,tbtInfo:document.getElementById('tbtInfo').value.trim(),buildings:finalBuildings,conductorSig:getCanvasDataURL('condSigCanvas'),attendees:currentAttendees.slice(),driveUrl:null,driveError:null, tickPoints: tickPointsChecked, hazardChecklist: checklistData, attachment: attachmentData};
     
     records.push(record);localStorage.setItem(STORAGE_KEY,JSON.stringify(records));
     
@@ -876,14 +940,23 @@ async function saveRecord(){
         populatePrintable(record.id);document.body.classList.add('pdf-capture');window.scrollTo(0,0);
         await waitForImages(document.getElementById('printableArea'));
         await new Promise(function(r){setTimeout(r,500)});
-        // Removed strict page height overflow to allow html2pdf to calculate size naturally
         var pdfUri=await html2pdf().set({margin:0,image:{type:'jpeg',quality:0.9},html2canvas:{scale:2,useCORS:true,logging:false,allowTaint:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(document.getElementById('printableArea')).output('datauristring');
         document.body.classList.remove('pdf-capture');
         
         var base64=pdfUri.split(',')[1].replace(/[\s\r\n\t\f\v\u00a0]/g,'');
         var safeTopic=(record.topic||'Record').replace(/[^a-z0-9]/gi,'_').substring(0,30);
         var filename='TBT_'+(record.date||'nodate')+'_'+safeTopic+'.pdf';
-        var driveBody="action=saveDrive&pdfBase64="+encodeURIComponent(base64)+"&filename="+encodeURIComponent(filename);
+        
+        // Prepare Drive Body with Attachment
+        var attachParams = '';
+        if(record.attachment) {
+            attachParams = "&attachName=" + encodeURIComponent(record.attachment.name) +
+                           "&attachBase64=" + encodeURIComponent(record.attachment.base64) +
+                           "&attachMime=" + encodeURIComponent(record.attachment.mime);
+        }
+
+        var driveBody="action=saveDrive&pdfBase64="+encodeURIComponent(base64)+"&filename="+encodeURIComponent(filename) + attachParams;
+        
         var driveResp=await fetch(DRIVE_URL,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:driveBody});
         var driveData=await driveResp.json();
         
@@ -913,7 +986,15 @@ async function uploadToDrive(id){
         var base64=pdfUri.split(',')[1].replace(/[\s\r\n\t\f\v\u00a0]/g,'');
         var safeTopic=(rec.topic||'Record').replace(/[^a-z0-9]/gi,'_').substring(0,30);
         var filename='TBT_'+(rec.date||'nodate')+'_'+safeTopic+'.pdf';
-        var driveBody="action=saveDrive&pdfBase64="+encodeURIComponent(base64)+"&filename="+encodeURIComponent(filename);
+        
+        var attachParams = '';
+        if(rec.attachment) {
+            attachParams = "&attachName=" + encodeURIComponent(rec.attachment.name) +
+                           "&attachBase64=" + encodeURIComponent(rec.attachment.base64) +
+                           "&attachMime=" + encodeURIComponent(rec.attachment.mime);
+        }
+
+        var driveBody="action=saveDrive&pdfBase64="+encodeURIComponent(base64)+"&filename="+encodeURIComponent(filename) + attachParams;
         var resp=await fetch(DRIVE_URL,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:driveBody});
         var data=await resp.json();
         if(data.status==="success"){rec.driveUrl=data.fileUrl;rec.driveError=null;hideLoading();showToast("Uploaded!")}
@@ -971,6 +1052,18 @@ function populatePrintable(id){
     }
     
     renderPrintableChecklist(r.permitType, r.hazardChecklist);
+
+    // Handle Attachment Display
+    var attachCont = document.getElementById('p_attachmentContainer');
+    var attachContent = document.getElementById('p_attachmentContent');
+    if(r.attachment) {
+        attachCont.style.display = 'block';
+        // Reconstruct Data URI from base64 string and mime type
+        attachContent.innerHTML = '<img src="data:' + r.attachment.mime + ';base64,' + r.attachment.base64 + '" style="max-width:100%; max-height:1100px; display:block; margin:0 auto;">';
+    } else {
+        attachCont.style.display = 'none';
+        attachContent.innerHTML = '';
+    }
 }
 
 function previewRecord(id){currentPreviewId=id;populatePrintable(id);document.body.classList.add('preview-mode');window.scrollTo(0,0)}
@@ -985,6 +1078,7 @@ function resetForm(){
     document.getElementById('otherDeptInput').style.display='none';document.getElementById('otherDeptInput').value='';
     document.getElementById('permitType').value='';document.getElementById('otherPermitInput').style.display='none';document.getElementById('otherPermitInput').value='';
     document.getElementById('commonAreaInput').value='';document.getElementById('commonAreaInput').style.display='none';
+    document.getElementById('tbtAttachment').value = ''; // Reset Attachment
     clearCanvas('condSigCanvas');currentAttendees=[];renderAttendeeTable();globalBuildings=[];
     document.querySelectorAll('.building-option').forEach(function(e){e.classList.remove('selected')});
     var checkboxes = document.querySelectorAll('.tick-list-form input[type="checkbox"]');
