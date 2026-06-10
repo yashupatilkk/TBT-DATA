@@ -837,20 +837,30 @@ function updateTBTNumberDisplay() {
     document.getElementById('tbtNumber').value = "TBT-" + numStr;
 }
 
-// --- SYNC COUNTER FROM SERVER ---
+// --- FIXED SYNC LOGIC ---
+// We now fetch from server every time we need a number to prevent duplicates.
 async function syncTbtCounter() {
-    var localCount = parseInt(localStorage.getItem(TBT_COUNTER_KEY)) || 1;
-    currentTBTCounter = localCount;
-    updateTBTNumberDisplay();
+    document.getElementById('tbtNumber').value = "Syncing...";
     try {
-        document.getElementById('tbtNumber').value = "Syncing...";
+        // 1. Try to fetch the latest ID from the server
         var res = await fetch(SHEET_URL, { method: "POST", body: JSON.stringify({ action: "getMaxId" }) });
         var data = await res.json();
+        
         if (data.status === "success" && data.nextNum) {
             currentTBTCounter = data.nextNum;
+            // Save locally just for cache, but we trust server
             localStorage.setItem(TBT_COUNTER_KEY, currentTBTCounter);
+        } else {
+            throw new Error("Server response invalid");
         }
-    } catch (e) { console.log("Could not sync counter. Using local value."); }
+    } catch (e) { 
+        console.log("Sync failed. Check connection."); 
+        // Optional: Allow offline work with local max if needed, but warn user
+        // For this fix, we prioritize preventing duplicates.
+        // If offline, we try to use local storage, but this is risky for multi-device.
+        var localCount = parseInt(localStorage.getItem(TBT_COUNTER_KEY));
+        if(localCount) currentTBTCounter = localCount;
+    }
     updateTBTNumberDisplay();
 }
 
@@ -1086,7 +1096,11 @@ async function saveRecord(){
     }
     
     btn.disabled = true;
-    showLoading("Saving to Sheet...", "");
+    
+    // === CRITICAL FIX: SYNC ID RIGHT NOW ===
+    showLoading("Syncing TBT Number...", "Getting latest serial from server");
+    await syncTbtCounter(); 
+    // =====================================
     
     var finalBuildings = globalBuildings.slice();
     var caIdx = finalBuildings.indexOf('COMMON AREA');
@@ -1156,6 +1170,8 @@ async function saveRecord(){
         attendeeCount: record.attendees.length,
         attendeeSummary: attSummary
     };
+    
+    showLoading("Saving to Sheet...", "");
     
     try{
         var sheetResp = await fetch(SHEET_URL, { method: "POST", body: JSON.stringify(sheetPayload) });
