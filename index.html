@@ -688,7 +688,8 @@
 
 <script>
 // --- CONFIGURATION ---
-var SHEET_URL="https://script.google.com/macros/s/AKfycbxOOHhhbIoLVtbAasK_oIqKc7MkraPefOFhbreQYZEKDHwnc1IDmbVJXDvPA1ySNQq2/exec";
+// UPDATED WITH YOUR SPECIFIC URL
+var SHEET_URL="https://script.google.com/macros/s/AKfycbw1bmRqJIx6SZLe6ZtiS688ighZSE46Au7pcdc47LvPv5bEoVW0u5L8E2xLa3Jg0dt-pQ/exec";
 var DRIVE_URL="https://script.google.com/macros/s/AKfycbybN9IHg_JlV06-umOnaRjq3HHX8VYXlwMmGHveh3P4KBzuKEy-sDi3qQz6Z429runabQ/exec";
 var STORAGE_KEY="prestige_tbt_data";
 var TBT_COUNTER_KEY="prestige_tbt_counter";
@@ -749,10 +750,10 @@ function showToast(msg, type = 'success') {
 
 function updateTBTNumberDisplay() {
     var numStr = String(currentTBTCounter).padStart(3, '0');
-    document.getElementById('tbtNumber').value = "TBT-" + numStr;
+    // UPDATED PREFIX HERE
+    document.getElementById('tbtNumber').value = "PTS-TBT-" + numStr;
 }
 
-// --- IMPROVED SYNC LOGIC ---
 async function syncTbtCounter(forceRefresh = false) {
     document.getElementById('tbtNumber').value = forceRefresh ? "Refreshing..." : "Syncing...";
     try {
@@ -886,7 +887,7 @@ function handlePermitTypeChange() {
         html += '<div style="text-align:center; font-weight:600; color:var(--accent); text-transform:uppercase; font-size:0.9rem;">' + data.title + '</div>';
         data.sections.forEach(function(sec, sIdx) {
             html += `<div style="background:rgba(0,0,0,0.2); padding:10px; border-radius:8px;">
-                <div style="font-weight:600; font-size:0.8rem; margin-bottom:8px; color:var(--primary);">${sec.name}</div>`;
+                <div style="font-weight:600; font-size:0.8rem; margin-bottom:8px; color:var(--primary)">${sec.name}</div>`;
             sec.items.forEach(function(item, iIdx) {
                 var uniqueName = 'hc_' + sIdx + '_' + iIdx;
                 html += `<div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
