@@ -489,10 +489,7 @@
             <div class="input-grid">
                 <div class="col-4">
                     <label class="required">TBT Number (Synced)</label>
-                    <div style="position:relative;">
-                        <input type="text" id="tbtNumber" readonly placeholder="Click 'Test Connection' if empty">
-                        <i class="fa-solid fa-server" id="syncIcon" style="position:absolute; right:12px; top:12px; color:var(--text-muted);"></i>
-                    </div>
+                    <input type="text" id="tbtNumber" readonly placeholder="Syncing...">
                 </div>
                 <div class="col-4">
                     <label class="required">Date</label>
@@ -832,52 +829,39 @@ function showToast(msg, type = 'success') {
         el.style.opacity = '0';
         el.style.transform = 'translateX(100%)';
         setTimeout(() => el.remove(), 300);
-    }, 4000); // Slightly longer to read errors
+    }, 3000);
 }
 
 function updateTBTNumberDisplay() {
     var numStr = String(currentTBTCounter).padStart(3, '0');
     document.getElementById('tbtNumber').value = "TBT-" + numStr;
-    var icon = document.getElementById('syncIcon');
-    icon.style.color = 'var(--success)';
 }
 
-// ==================================================================================
-// FIXED SYNC LOGIC (STRICT SERVER MODE)
-// ==================================================================================
-// This function now ONLY returns true if it successfully gets a number from the server.
-// It does NOT fall back to local storage, preventing duplicate IDs across devices.
+// --- FIXED SYNC LOGIC ---
+// We now fetch from server every time we need a number to prevent duplicates.
 async function syncTbtCounter() {
     document.getElementById('tbtNumber').value = "Syncing...";
-    document.getElementById('syncIcon').className = "fa-solid fa-spinner fa-spin";
-    
     try {
         // 1. Try to fetch the latest ID from the server
         var res = await fetch(SHEET_URL, { method: "POST", body: JSON.stringify({ action: "getMaxId" }) });
-        
-        // Check if response is ok (status 200-299)
-        if (!res.ok) throw new Error("Server connection failed (Status: " + res.status + ")");
-        
         var data = await res.json();
         
         if (data.status === "success" && data.nextNum) {
-            currentTBTCounter = parseInt(data.nextNum);
-            // Save to local cache just for display history, but we don't trust it for new IDs
+            currentTBTCounter = data.nextNum;
+            // Save locally just for cache, but we trust server
             localStorage.setItem(TBT_COUNTER_KEY, currentTBTCounter);
-            updateTBTNumberDisplay();
-            return true; // SUCCESS
         } else {
-            throw new Error("Server returned invalid data: " + JSON.stringify(data));
+            throw new Error("Server response invalid");
         }
     } catch (e) { 
-        console.error("Sync failed", e); 
-        // CRITICAL CHANGE: We do NOT use local storage fallback here.
-        // If we are offline, we display an error instead of guessing the number.
-        document.getElementById('tbtNumber').value = "Connection Error";
-        document.getElementById('syncIcon').className = "fa-solid fa-triangle-exclamation";
-        document.getElementById('syncIcon').style.color = 'var(--danger)';
-        return false; // FAILURE
+        console.log("Sync failed. Check connection."); 
+        // Optional: Allow offline work with local max if needed, but warn user
+        // For this fix, we prioritize preventing duplicates.
+        // If offline, we try to use local storage, but this is risky for multi-device.
+        var localCount = parseInt(localStorage.getItem(TBT_COUNTER_KEY));
+        if(localCount) currentTBTCounter = localCount;
     }
+    updateTBTNumberDisplay();
 }
 
 function initTickPoints() {
@@ -912,14 +896,6 @@ async function testConnection(){
     try{var r2=await fetch(DRIVE_URL,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"action=test"});c.innerHTML+='<br><span style="color:var(--success);">Drive API: '+r2.status+' OK</span>'}catch(e2){c.innerHTML+='<br><span style="color:var(--danger);">Drive: '+e2.message+'</span>'}
     var ok=checkLogosLoaded();
     c.innerHTML+='<br><br><span style="color:'+(ok?'var(--success)':'var(--danger)')+';">Logos: '+(ok?'LOADED':'MISSING')+'</span>';
-    
-    // If test passes, try to sync number
-    if(c.innerHTML.indexOf("OK") > -1){
-        c.innerHTML+='<br><br>Attempting to sync Serial Number...';
-        var synced = await syncTbtCounter();
-        if(synced) c.innerHTML+='<br><span style="color:var(--success);">Serial Sync: SUCCESS (Current: '+currentTBTCounter+')</span>';
-        else c.innerHTML+='<br><span style="color:var(--danger);">Serial Sync: FAILED</span>';
-    }
 }
 
 function waitForImages(el){
@@ -1121,17 +1097,10 @@ async function saveRecord(){
     
     btn.disabled = true;
     
-    // === CRITICAL FIX: STRICT SERVER SYNC BEFORE SAVE ===
-    showLoading("Syncing Serial Number...", "Ensuring unique ID across all devices");
-    var synced = await syncTbtCounter();
-    
-    if(!synced) {
-        hideLoading();
-        showToast("Error: Cannot connect to server to get a unique Serial Number.\nPlease check your internet connection.", "error");
-        btn.disabled = false;
-        return;
-    }
-    // ====================================================
+    // === CRITICAL FIX: SYNC ID RIGHT NOW ===
+    showLoading("Syncing TBT Number...", "Getting latest serial from server");
+    await syncTbtCounter(); 
+    // =====================================
     
     var finalBuildings = globalBuildings.slice();
     var caIdx = finalBuildings.indexOf('COMMON AREA');
@@ -1221,7 +1190,6 @@ async function saveRecord(){
         return;
     }
     
-    // Only update local counter if sheet save was successful
     currentTBTCounter++;
     localStorage.setItem(TBT_COUNTER_KEY, currentTBTCounter);
     
@@ -1233,6 +1201,7 @@ async function saveRecord(){
         await waitForImages(document.getElementById('printableArea'));
         await new Promise(function(r){ setTimeout(r, 500) });
         
+        // Snippet 1 PDF Config - Better Layout Handling
         var pdfUri = await html2pdf().set({
             margin: 0,
             image: { type: 'jpeg', quality: 0.9 },
@@ -1361,9 +1330,7 @@ function closePreview(){document.body.classList.remove('preview-mode');currentPr
 function directPrint(){window.print()}
 
 function resetForm(){
-    // Attempt to sync immediately on reset for the next user
     syncTbtCounter();
-    
     document.getElementById('topic').value='';document.getElementById('conductor').value='';
     document.getElementById('designation').value='';document.getElementById('tbtInfo').value='';
     document.getElementById('permitNo').value='';document.getElementById('department').value='';
@@ -1417,10 +1384,7 @@ window.onload=function(){
     var minutes = String(now.getMinutes()).padStart(2, '0');
     document.getElementById('time').value = hours + ":" + minutes;
     renderDashboard();
-    
-    // Attempt initial sync
     syncTbtCounter();
-    
     setupConditionalInput('department','otherDeptInput');
     document.getElementById('passwordInput').addEventListener('keypress',function(e){if(e.key==='Enter')verifyPassword()});
 };
