@@ -116,6 +116,15 @@
     label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; margin-left: 2px; }
     label.required::after { content: " *"; color: var(--danger); }
 
+    /* Input Group for TBT Refresh Button */
+    .input-group { position: relative; display: flex; align-items: center; }
+    .input-group input { padding-right: 45px; }
+    .input-group-btn {
+        position: absolute; right: 8px; background: transparent; border: none; color: var(--text-muted);
+        cursor: pointer; padding: 8px; transition: color 0.2s; font-size: 1rem;
+    }
+    .input-group-btn:hover { color: var(--primary); transform: rotate(90deg); }
+
     input, select, textarea {
         width: 100%; padding: 12px 16px; background: var(--bg-input); border: 1px solid var(--border-light);
         border-radius: var(--radius-sm); color: white; font-family: 'Inter', sans-serif; font-size: 0.95rem;
@@ -182,6 +191,8 @@
     .sig-wrapper {
         background: #fff; border: 2px dashed var(--border-light); border-radius: var(--radius-md);
         padding: 4px; position: relative; overflow: hidden; transition: border-color 0.3s;
+        /* CRITICAL FIX: Stops scrolling while signing on mobile */
+        touch-action: none; 
     }
     .sig-wrapper:hover { border-color: var(--primary); }
     canvas { display: block; width: 100%; height: 120px; cursor: crosshair; }
@@ -267,7 +278,7 @@
     .drive-alert { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
 
     /* ==========================================================================
-       PROFESSIONAL PRINT CSS (OPTIMIZED FROM SNIPPET 1)
+       PROFESSIONAL PRINT CSS
        ========================================================================== */
     
     #printableArea { display: none; }
@@ -306,127 +317,31 @@
     .ph-label { background: #eee; padding: 4px 5px; border: 1px solid black; font-weight: bold; width: 95px; flex-shrink: 0; display: flex; align-items: center; }
     .ph-value { padding: 4px 5px; border: 1px solid black; flex-grow: 1; min-height: 18px; }
 
-    /* --- PROFESSIONAL TICK POINTS --- */
-    .ph-section-wrapper {
-        border: 1px solid black;
-        margin-bottom: 5px;
-        padding: 2px;
-        break-inside: avoid;
-    }
-    .ph-section-header {
-        font-size: 8px;
-        font-weight: 800;
-        background: #f0f0f0;
-        color: black;
-        padding: 4px;
-        text-align: center;
-        border-bottom: 1px solid black;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    .ph-tick-grid {
-        padding: 5px;
-        display: grid; 
-        grid-template-columns: 1fr 1fr; 
-        column-gap: 15px; 
-        row-gap: 3px; 
-        font-size: 7.5px; 
-        line-height: 1.35; 
-        font-family: 'Arial', sans-serif;
-    }
-    .ph-tick-item {
-        display: flex; 
-        align-items: flex-start; 
-        gap: 6px;
-        margin-bottom: 1px;
-    }
-    .ph-tick-item input {
-        transform: scale(0.9); 
-        margin: 1px 0 0 0;
-        accent-color: black;
-        flex-shrink: 0;
-        width: 14px;
-        height: 14px;
-    }
+    .ph-section-wrapper { border: 1px solid black; margin-bottom: 5px; padding: 2px; break-inside: avoid; }
+    .ph-section-header { font-size: 8px; font-weight: 800; background: #f0f0f0; color: black; padding: 4px; text-align: center; border-bottom: 1px solid black; text-transform: uppercase; letter-spacing: 1px; }
+    .ph-tick-grid { padding: 5px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 15px; row-gap: 3px; font-size: 7.5px; line-height: 1.35; font-family: 'Arial', sans-serif; }
+    .ph-tick-item { display: flex; align-items: flex-start; gap: 6px; margin-bottom: 1px; }
+    .ph-tick-item input { transform: scale(0.9); margin: 1px 0 0 0; accent-color: black; flex-shrink: 0; width: 14px; height: 14px; }
 
-    /* --- PROFESSIONAL HAZARD TABLE --- */
     .ph-hazard-section { border: 1px solid black; margin-bottom: 5px; padding-bottom: 2px; break-inside: avoid; }
     .ph-hazard-header { font-size: 8px; font-weight: 800; background: #f0f0f0; color: black; padding: 4px; text-align: center; border-bottom: 1px solid black; text-transform: uppercase; letter-spacing: 1px; }
-    .ph-hazard-table { 
-        width: 100%; 
-        border-collapse: collapse; 
-        font-size: 7.5px; 
-        table-layout: fixed; 
-        border: 1px solid black;
-    }
-    .ph-hazard-table th, .ph-hazard-table td { 
-        border: 1px solid black; 
-        padding: 4px; 
-        text-align: center; 
-        vertical-align: middle;
-    }
-    .ph-hazard-table th { 
-        background-color: #eee; 
-        font-weight: bold; 
-        height: 20px;
-        color: black;
-    }
-    .ph-hazard-table td:first-child { 
-        text-align: left; 
-        width: 60%; 
-        padding-left: 6px;
-    }
-    .ph-hazard-table td:not(:first-child) { 
-        width: 13.33%; 
-    }
-    .ph-cat-row { 
-        background-color: #ddd; 
-        font-weight: bold; 
-        font-size: 7.5px; 
-        letter-spacing: 0.5px;
-        color: black;
-    }
+    .ph-hazard-table { width: 100%; border-collapse: collapse; font-size: 7.5px; table-layout: fixed; border: 1px solid black; }
+    .ph-hazard-table th, .ph-hazard-table td { border: 1px solid black; padding: 4px; text-align: center; vertical-align: middle; }
+    .ph-hazard-table th { background-color: #eee; font-weight: bold; height: 20px; color: black; }
+    .ph-hazard-table td:first-child { text-align: left; width: 60%; padding-left: 6px; }
+    .ph-hazard-table td:not(:first-child) { width: 13.33%; }
+    .ph-cat-row { background-color: #ddd; font-weight: bold; font-size: 7.5px; letter-spacing: 0.5px; color: black; }
 
-    .ph-tbt-box { 
-        border: 1px solid black; 
-        padding: 5px; 
-        min-height: 25px; 
-        font-size: 8px; 
-        margin-bottom: 5px; 
-        background: #fafafa; 
-        line-height: 1.3; 
-        white-space: pre-wrap; 
-        color: black;
-    }
+    .ph-tbt-box { border: 1px solid black; padding: 5px; min-height: 25px; font-size: 8px; margin-bottom: 5px; background: #fafafa; line-height: 1.3; white-space: pre-wrap; color: black; }
     .ph-sig-row { display: flex; justify-content: space-between; margin-top: 5px; }
     .ph-sig-item { text-align: center; width: 140px; }
     .ph-sig-img { height: 30px; width: 100%; border-bottom: 1px dotted #000; margin-bottom: 2px; object-fit: contain; }
     .ph-sig-label { font-size: 8px; font-weight: bold; color: black; }
 
-    /* --- ATTACHMENT SECTION (LAST PAGE) --- */
-    #p_attachmentContainer {
-        display: none;
-        margin-top: 20px;
-        border: 1px solid black;
-        padding: 10px;
-        page-break-before: always; /* Forces this to start on a new page */
-    }
-    #p_attachmentContainer h4 {
-        text-align: center;
-        text-decoration: underline;
-        margin-bottom: 10px;
-        font-size: 10px;
-        font-weight: bold;
-    }
-    #p_attachmentContent img {
-        max-width: 100%;
-        max-height: 1100px;
-        display: block;
-        margin: 0 auto;
-        border: 1px solid #ccc;
-    }
+    #p_attachmentContainer { display: none; margin-top: 20px; border: 1px solid black; padding: 10px; page-break-before: always; }
+    #p_attachmentContainer h4 { text-align: center; text-decoration: underline; margin-bottom: 10px; font-size: 10px; font-weight: bold; }
+    #p_attachmentContent img { max-width: 100%; max-height: 1100px; display: block; margin: 0 auto; border: 1px solid #ccc; }
 
-    /* --- ATTENDANCE TABLE --- */
     .print-table { width: 100%; border-collapse: collapse; font-size: 7.5px; border: 1px solid black; margin-top: 5px; table-layout: fixed; }
     .print-table th, .print-table td { border: 1px solid black; padding: 4px; text-align: center; color: black; }
     .print-table th { background-color: #eee; font-weight: bold; height: 24px; color: black; }
@@ -488,8 +403,11 @@
             <div class="section-title"><i class="fa-solid fa-clipboard-list"></i> 1. Main Details</div>
             <div class="input-grid">
                 <div class="col-4">
-                    <label class="required">TBT Number (Synced)</label>
-                    <input type="text" id="tbtNumber" readonly placeholder="Syncing...">
+                    <label class="required">TBT Number (Auto-Sync)</label>
+                    <div class="input-group">
+                        <input type="text" id="tbtNumber" readonly placeholder="Syncing...">
+                        <button type="button" class="input-group-btn" onclick="syncTbtCounter(true)" title="Force Refresh Serial Number"><i class="fa-solid fa-rotate"></i></button>
+                    </div>
                 </div>
                 <div class="col-4">
                     <label class="required">Date</label>
@@ -698,7 +616,7 @@
 </div>
 
 <!-- ==========================================================================
-     OPTIMIZED PRINTABLE DOCUMENT (FROM SNIPPET 1)
+     PRINTABLE DOCUMENT
      ========================================================================== -->
 <div id="printableArea">
     <div class="print-header">
@@ -731,7 +649,6 @@
             <div class="ph-row" style="grid-column:span 2;"><div class="ph-label">9. WP No / Type</div><div class="ph-value" id="p_permitNo"></div></div>
         </div>
         
-        <!-- PROFESSIONAL TICK POINTS -->
         <div class="ph-section-wrapper">
             <div class="ph-section-header">Safety General Rules / Tick Points</div>
             <div class="ph-tick-grid" id="p_tickGrid">
@@ -739,7 +656,6 @@
             </div>
         </div>
 
-        <!-- PROFESSIONAL HAZARD TABLE -->
         <div id="hazardPrintContainer"></div>
 
         <div class="ph-tbt-box" id="p_tbtInfo"></div>
@@ -764,7 +680,6 @@
         </table>
     </div>
 
-    <!-- ATTACHMENT CONTAINER (FORCES NEW PAGE) -->
     <div id="p_attachmentContainer">
         <h4>ATTACHMENT / SUPPORTING DOCUMENT</h4>
         <div id="p_attachmentContent"></div>
@@ -773,7 +688,7 @@
 
 <script>
 // --- CONFIGURATION ---
-var SHEET_URL="https://script.google.com/macros/s/AKfycbxNLVZ4hugrYIyqd8pf5eLLOcen0kF--OLjBkH7o2_5Xp5GqOR_O-hyVM7fs30cX8ELcw/exec";
+var SHEET_URL="https://script.google.com/macros/s/AKfycbxOOHhhbIoLVtbAasK_oIqKc7MkraPefOFhbreQYZEKDHwnc1IDmbVJXDvPA1ySNQq2/exec";
 var DRIVE_URL="https://script.google.com/macros/s/AKfycbybN9IHg_JlV06-umOnaRjq3HHX8VYXlwMmGHveh3P4KBzuKEy-sDi3qQz6Z429runabQ/exec";
 var STORAGE_KEY="prestige_tbt_data";
 var TBT_COUNTER_KEY="prestige_tbt_counter";
@@ -837,31 +752,46 @@ function updateTBTNumberDisplay() {
     document.getElementById('tbtNumber').value = "TBT-" + numStr;
 }
 
-// --- FIXED SYNC LOGIC ---
-// We now fetch from server every time we need a number to prevent duplicates.
-async function syncTbtCounter() {
-    document.getElementById('tbtNumber').value = "Syncing...";
+// --- IMPROVED SYNC LOGIC ---
+async function syncTbtCounter(forceRefresh = false) {
+    document.getElementById('tbtNumber').value = forceRefresh ? "Refreshing..." : "Syncing...";
     try {
-        // 1. Try to fetch the latest ID from the server
         var res = await fetch(SHEET_URL, { method: "POST", body: JSON.stringify({ action: "getMaxId" }) });
-        var data = await res.json();
+        var text = await res.text();
+        var data;
+        try {
+            data = JSON.parse(text);
+        } catch (e) {
+            throw new Error("Invalid Server Response");
+        }
         
         if (data.status === "success" && data.nextNum) {
             currentTBTCounter = data.nextNum;
-            // Save locally just for cache, but we trust server
             localStorage.setItem(TBT_COUNTER_KEY, currentTBTCounter);
+            updateTBTNumberDisplay();
+            return true;
         } else {
-            throw new Error("Server response invalid");
+            throw new Error(data.message || "Server data invalid");
         }
     } catch (e) { 
-        console.log("Sync failed. Check connection."); 
-        // Optional: Allow offline work with local max if needed, but warn user
-        // For this fix, we prioritize preventing duplicates.
-        // If offline, we try to use local storage, but this is risky for multi-device.
+        console.error("Sync failed:", e);
+        if(forceRefresh) {
+            showToast("Server Sync Failed. Check Internet.", "error");
+            document.getElementById('tbtNumber').value = "Error!";
+            return false;
+        }
+
         var localCount = parseInt(localStorage.getItem(TBT_COUNTER_KEY));
-        if(localCount) currentTBTCounter = localCount;
+        if(localCount) {
+            currentTBTCounter = localCount;
+            updateTBTNumberDisplay();
+            showToast("Offline Mode: ID might conflict. Go Online to Sync.", "error");
+        } else {
+            document.getElementById('tbtNumber').value = "No Connection";
+            showToast("Could not sync Serial Number.", "error");
+        }
+        return false;
     }
-    updateTBTNumberDisplay();
 }
 
 function initTickPoints() {
@@ -886,7 +816,7 @@ function showLoading(t,s){
     document.getElementById('loadingSub').textContent=s||'Please wait';
     document.getElementById('loadingOverlay').classList.add('active');
 }
-function hideLoading(){document.getElementById('loadingOverlay').classList.remove('active');}
+function hideLoading(){document.getElementById('loadingOverlay').classList.remove('active')}
 
 async function testConnection(){
     var box=document.getElementById('debugBox');box.style.display='block';
@@ -1017,30 +947,94 @@ function renderPrintableChecklist(permitType, checklistData) {
     container.innerHTML = html;
 }
 
+// --- IMPROVED CANVAS FUNCTIONS ---
 function setupCanvas(id){
-    var canvas=document.getElementById(id);if(!canvas)return;
-    var ctx=canvas.getContext('2d'),isDrawing=false;
-    function resize(){
-        var r=canvas.getBoundingClientRect();
-        canvas.width=r.width;canvas.height=r.height;
-        ctx.lineWidth=2;ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle='#000';
+    var canvas = document.getElementById(id);
+    if(!canvas) return;
+    
+    var ctx = canvas.getContext('2d');
+    var isDrawing = false;
+
+    function resizeCanvas() {
+        var rect = canvas.getBoundingClientRect();
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+        ctx.lineWidth = 3; 
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.strokeStyle = '#000';
     }
-    setTimeout(resize,100);window.addEventListener('resize',resize);
-    function pos(e){
-        var r=canvas.getBoundingClientRect();
-        var cx=e.touches?e.touches[0].clientX:e.clientX;
-        var cy=e.touches?e.touches[0].clientY:e.clientY;
-        return{x:cx-r.left,y:cy-r.top};
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    function getPos(e) {
+        var rect = canvas.getBoundingClientRect();
+        var clientX, clientY;
+        if (e.touches && e.touches.length > 0) {
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
+        } else {
+            clientX = e.clientX;
+            clientY = e.clientY;
+        }
+        return { x: clientX - rect.left, y: clientY - rect.top };
     }
-    function start(e){isDrawing=true;var p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y);e.preventDefault()}
-    function draw(e){if(!isDrawing)return;var p=pos(e);ctx.lineTo(p.x,p.y);ctx.stroke();e.preventDefault()}
-    function stop(e){isDrawing=false}
-    canvas.addEventListener('mousedown',start);canvas.addEventListener('mousemove',draw);canvas.addEventListener('mouseup',stop);
-    canvas.addEventListener('touchstart',start,{passive:false});canvas.addEventListener('touchmove',draw,{passive:false});canvas.addEventListener('touchend',stop);
+
+    function start(e) {
+        isDrawing = true;
+        var p = getPos(e);
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        if(e.type === 'touchstart') e.preventDefault(); 
+    }
+
+    function draw(e) {
+        if (!isDrawing) return;
+        var p = getPos(e);
+        ctx.lineTo(p.x, p.y);
+        ctx.stroke();
+        if(e.type === 'touchmove') e.preventDefault();
+    }
+
+    function stop(e) {
+        isDrawing = false;
+        ctx.beginPath();
+    }
+
+    canvas.addEventListener('mousedown', start);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stop);
+    canvas.addEventListener('mouseleave', stop);
+
+    canvas.addEventListener('touchstart', start, { passive: false });
+    canvas.addEventListener('touchmove', draw, { passive: false });
+    canvas.addEventListener('touchend', stop);
 }
-function clearCanvas(id){var c=document.getElementById(id);if(c)c.getContext('2d').clearRect(0,0,c.width,c.height)}
+
+function clearCanvas(id) {
+    var c = document.getElementById(id);
+    if(c) {
+        var ctx = c.getContext('2d');
+        ctx.clearRect(0, 0, c.width, c.height);
+    }
+}
+
 function isCanvasBlank(id){var c=document.getElementById(id);if(!c)return true;var d=c.getContext('2d').getImageData(0,0,c.width,c.height).data;for(var i=0;i<d.length;i+=4){if(d[i]||d[i+1]||d[i+2]||d[i+3])return false}return true}
-function getCanvasDataURL(id){var c=document.getElementById(id);if(!c)return '';var t=document.createElement('canvas'),x=t.getContext('2d');t.width=c.width;t.height=c.height;x.fillStyle="white";x.fillRect(0,0,t.width,t.height);x.drawImage(c,0,0);return t.toDataURL('image/jpeg',0.5)}
+
+function getCanvasDataURL(id){
+    var c=document.getElementById(id);
+    if(!c) return '';
+    if(c.width === 0 || c.height === 0) {
+        c.width = c.offsetWidth || 300;
+        c.height = c.offsetHeight || 120;
+    }
+    var t=document.createElement('canvas'),x=t.getContext('2d');
+    t.width=c.width;t.height=c.height;
+    x.fillStyle="white";x.fillRect(0,0,t.width,t.height);x.drawImage(c,0,0);
+    return t.toDataURL('image/jpeg',0.8);
+}
+
 function compressImage(file,cb){var r=new FileReader();r.readAsDataURL(file);r.onload=function(e){var img=new Image();img.src=e.target.result;img.onload=function(){var c=document.createElement('canvas');c.width=100;c.height=100;c.getContext('2d').drawImage(img,0,0,100,100);cb(c.toDataURL('image/jpeg',0.5))}}}
 function setupConditionalInput(selId,inpId){var s=document.getElementById(selId),i=document.getElementById(inpId);if(!s||!i)return;s.addEventListener('change',function(){if(this.value==='OTHER'||this.value==='Other'){i.style.display='block';i.value=''}else{i.style.display='none'}})}
 function toggleBuilding(el,val){el.classList.toggle('selected');var sel=el.classList.contains('selected');if(sel){if(globalBuildings.indexOf(val)===-1)globalBuildings.push(val)}else{globalBuildings=globalBuildings.filter(function(b){return b!==val})}if(val==='COMMON AREA'){var inp=document.getElementById('commonAreaInput');if(sel){inp.style.display='block';inp.value=''}else{inp.style.display='none';inp.value=''}}}
@@ -1097,10 +1091,17 @@ async function saveRecord(){
     
     btn.disabled = true;
     
-    // === CRITICAL FIX: SYNC ID RIGHT NOW ===
     showLoading("Syncing TBT Number...", "Getting latest serial from server");
-    await syncTbtCounter(); 
-    // =====================================
+    var syncSuccess = await syncTbtCounter(true); 
+    
+    if(!syncSuccess) {
+        hideLoading();
+        btn.disabled = false;
+        showToast("Could not verify Serial Number. Save Cancelled.", "error");
+        return;
+    }
+    
+    updateTBTNumberDisplay();
     
     var finalBuildings = globalBuildings.slice();
     var caIdx = finalBuildings.indexOf('COMMON AREA');
@@ -1201,7 +1202,6 @@ async function saveRecord(){
         await waitForImages(document.getElementById('printableArea'));
         await new Promise(function(r){ setTimeout(r, 500) });
         
-        // Snippet 1 PDF Config - Better Layout Handling
         var pdfUri = await html2pdf().set({
             margin: 0,
             image: { type: 'jpeg', quality: 0.9 },
@@ -1330,7 +1330,7 @@ function closePreview(){document.body.classList.remove('preview-mode');currentPr
 function directPrint(){window.print()}
 
 function resetForm(){
-    syncTbtCounter();
+    updateTBTNumberDisplay();
     document.getElementById('topic').value='';document.getElementById('conductor').value='';
     document.getElementById('designation').value='';document.getElementById('tbtInfo').value='';
     document.getElementById('permitNo').value='';document.getElementById('department').value='';
