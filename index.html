@@ -464,7 +464,7 @@
                 </div>
                 
                 <div class="col-12">
-                    <label class="required">Activity</label>
+                    <label class="required">Topic</label>
                     <input type="text" id="topic" placeholder="e.g. PHC Service - Labor" required>
                 </div>
 
@@ -561,7 +561,7 @@
 
         <!-- SECTION 5: TBT INFO -->
         <div class="form-card">
-            <div class="section-title"><i class="fa-solid fa-file-lines"></i> 4. TBT Activity Details</div>
+            <div class="section-title"><i class="fa-solid fa-file-lines"></i> 4. TBT Topic Details</div>
             <label class="required">Covered Information</label>
             <textarea id="tbtInfo" placeholder="Brief description of the TBT topic..." style="height:100px; width:100%; padding:12px; background:var(--bg-input); border:1px solid var(--border-light); color:white; border-radius:var(--radius-sm);" required></textarea>
             
@@ -662,7 +662,7 @@
     <div class="form-card">
         <h3 style="font-size:1.1rem; color:white; margin-bottom:20px;">Recent Submissions</h3>
         <table class="app-table">
-            <thead><tr><th>Date</th><th>TBT #</th><th>Activity</th><th>Type</th><th>Time</th><th>Drive</th><th style="text-align:right;">Actions</th></tr></thead>
+            <thead><tr><th>Date</th><th>TBT #</th><th>Topic</th><th>Type</th><th>Time</th><th>Drive</th><th style="text-align:right;">Actions</th></tr></thead>
             <tbody id="mainTableBody"></tbody>
         </table>
     </div>
@@ -704,7 +704,7 @@
             <div class="ph-grid">
                 <div class="ph-row"><div class="ph-label">1. TBT No</div><div class="ph-value" id="p_tbtNumber"></div></div>
                 <div class="ph-row"><div class="ph-label">2. Date</div><div class="ph-value" id="p_date"></div></div>
-                <div class="ph-row"><div class="ph-label">3. Activity</div><div class="ph-value" id="p_topic"></div></div>
+                <div class="ph-row"><div class="ph-label">3. Topic</div><div class="ph-value" id="p_topic"></div></div>
                 <div class="ph-row"><div class="ph-label">4. Time</div><div class="ph-value" id="p_time"></div></div>
                 <div class="ph-row"><div class="ph-label">5. Dept</div><div class="ph-value" id="p_dept"></div></div>
                 <div class="ph-row"><div class="ph-label">6. Project</div><div class="ph-value" id="p_project"></div></div>
@@ -723,7 +723,7 @@
 
         <div id="hazardPrintContainer"></div>
 
-        <div class="ph-tbt-box-label">TBT Activity / Covered Information</div>
+        <div class="ph-tbt-box-label">TBT Topic / Covered Information</div>
         <div class="ph-tbt-box" id="p_tbtInfo"></div>
         
         <div class="ph-sig-row">
@@ -1673,5 +1673,5 @@ window.onload=function(){
     });
 };
 </script>
-</body> 
+</body>
 </html>
