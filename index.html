@@ -302,65 +302,65 @@
         color: black;
         width: 210mm;
         min-height: 297mm;
-        padding: 8mm 9mm;
+        padding: 5mm 6mm;
         box-shadow: 0 0 40px rgba(0,0,0,0.4);
         font-family: 'Arial', sans-serif;
         box-sizing: border-box;
         position: relative;
-        font-size: 10px;
+        font-size: 9.5px;
     }
     
-    /* [CHANGE 4] PDF Page containers */
+    /* PDF Page containers */
     .pdf-page-1 {
         min-height: 277mm;
         box-sizing: border-box;
     }
     .pdf-page-2 {
         page-break-before: always;
-        padding-top: 6mm;
+        padding-top: 4mm;
         box-sizing: border-box;
     }
 
-    /* [CHANGE 4] Print header improvements */
-    .print-header { border-bottom: 2.5px solid black; margin-bottom: 6px; padding-bottom: 6px; }
-    .ph-logo-area { display: flex; justify-content: space-between; align-items: center; height: 50px; margin-bottom: 5px; }
-    .ph-logo-area img { height: 100%; width: auto; max-height: 50px; object-fit: contain; }
+    /* Print header improvements */
+    .print-header { border-bottom: 2px solid black; margin-bottom: 4px; padding-bottom: 4px; }
+    .ph-logo-area { display: flex; justify-content: space-between; align-items: center; height: 42px; margin-bottom: 3px; }
+    .ph-logo-area img { height: 100%; width: auto; max-height: 42px; object-fit: contain; }
     
-    .ph-info-box { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-    .ph-company-name { font-size: 13px; font-weight: 900; text-transform: uppercase; text-align: center; width: 100%; letter-spacing: 0.8px; margin-bottom: 3px; }
-    .ph-meta-table { border-collapse: collapse; font-size: 8.5px; border: 1px solid black; width: 42%; }
-    .ph-meta-table td { border: 1px solid black; padding: 3px 5px; }
-    .ph-doc-title { font-size: 10px; font-weight: 800; text-transform: uppercase; text-align: left; width: 58%; padding-right: 8px; line-height: 1.4; }
+    .ph-info-box { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; }
+    .ph-company-name { font-size: 12px; font-weight: 900; text-transform: uppercase; text-align: center; width: 100%; letter-spacing: 0.8px; margin-bottom: 2px; }
+    .ph-meta-table { border-collapse: collapse; font-size: 8px; border: 1px solid black; width: 42%; }
+    .ph-meta-table td { border: 1px solid black; padding: 2px 4px; }
+    .ph-doc-title { font-size: 9.5px; font-weight: 800; text-transform: uppercase; text-align: left; width: 58%; padding-right: 8px; line-height: 1.3; }
 
-    /* [CHANGE 4] Main details grid */
-    .ph-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 8px; font-size: 9.5px; margin-bottom: 6px; }
+    /* Main details grid */
+    .ph-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 6px; font-size: 9px; margin-bottom: 4px; }
     .ph-row { display: flex; align-items: stretch; }
-    .ph-label { background: #efefef; padding: 5px 6px; border: 1px solid #555; font-weight: bold; width: 110px; flex-shrink: 0; display: flex; align-items: center; font-size: 8.5px; }
-    .ph-value { padding: 5px 6px; border: 1px solid #555; flex-grow: 1; min-height: 20px; font-size: 9px; }
+    .ph-label { background: #efefef; padding: 3px 5px; border: 1px solid #555; font-weight: bold; width: 105px; flex-shrink: 0; display: flex; align-items: center; font-size: 8px; }
+    .ph-value { padding: 3px 5px; border: 1px solid #555; flex-grow: 1; min-height: 16px; font-size: 8.5px; }
 
-    /* [CHANGE 4] Section wrappers with better formatting */
-    .ph-section-wrapper { border: 1.5px solid #333; margin-bottom: 6px; padding: 3px; break-inside: avoid; }
-    .ph-section-header { font-size: 9.5px; font-weight: 900; background: #e0e0e0; color: black; padding: 5px 6px; text-align: center; border-bottom: 1.5px solid #333; text-transform: uppercase; letter-spacing: 1.2px; }
-    .ph-tick-grid { padding: 6px 8px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; row-gap: 4px; font-size: 8.5px; line-height: 1.4; font-family: 'Arial', sans-serif; }
-    .ph-tick-item { display: flex; align-items: flex-start; gap: 6px; margin-bottom: 1px; }
-    .ph-tick-item input { transform: scale(0.95); margin: 1px 0 0 0; accent-color: black; flex-shrink: 0; width: 13px; height: 13px; }
+    /* Section wrappers */
+    .ph-section-wrapper { border: 1.5px solid #333; margin-bottom: 3px; padding: 2px; break-inside: avoid; }
+    .ph-section-header { font-size: 9px; font-weight: 900; background: #e0e0e0; color: black; padding: 3px 6px; text-align: center; border-bottom: 1.5px solid #333; text-transform: uppercase; letter-spacing: 1px; }
+    .ph-tick-grid { padding: 4px 6px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 16px; row-gap: 2px; font-size: 8px; line-height: 1.3; font-family: 'Arial', sans-serif; }
+    .ph-tick-item { display: flex; align-items: flex-start; gap: 5px; margin-bottom: 0; }
+    .ph-tick-item input { transform: scale(0.9); margin: 1px 0 0 0; accent-color: black; flex-shrink: 0; width: 11px; height: 11px; }
 
-    /* [CHANGE 4] Hazard section improvements */
-    .ph-hazard-section { border: 1.5px solid #333; margin-bottom: 6px; padding-bottom: 2px; break-inside: avoid; }
-    .ph-hazard-header { font-size: 9.5px; font-weight: 900; background: #e0e0e0; color: black; padding: 5px 6px; text-align: center; border-bottom: 1.5px solid #333; text-transform: uppercase; letter-spacing: 1.2px; }
-    .ph-hazard-table { width: 100%; border-collapse: collapse; font-size: 8.5px; table-layout: fixed; border: 1px solid #555; }
-    .ph-hazard-table th, .ph-hazard-table td { border: 1px solid #555; padding: 4px 5px; text-align: center; vertical-align: middle; }
-    .ph-hazard-table th { background-color: #efefef; font-weight: bold; height: 22px; color: black; font-size: 8.5px; }
-    .ph-hazard-table td:first-child { text-align: left; width: 60%; padding-left: 7px; }
+    /* Hazard section */
+    .ph-hazard-section { border: 1.5px solid #333; margin-bottom: 3px; padding-bottom: 1px; break-inside: avoid; }
+    .ph-hazard-header { font-size: 9px; font-weight: 900; background: #e0e0e0; color: black; padding: 3px 6px; text-align: center; border-bottom: 1.5px solid #333; text-transform: uppercase; letter-spacing: 1px; }
+    .ph-hazard-table { width: 100%; border-collapse: collapse; font-size: 8px; table-layout: fixed; border: 1px solid #555; }
+    .ph-hazard-table th, .ph-hazard-table td { border: 1px solid #555; padding: 2px 3px; text-align: center; vertical-align: middle; }
+    .ph-hazard-table th { background-color: #efefef; font-weight: bold; height: 18px; color: black; font-size: 8px; }
+    .ph-hazard-table td:first-child { text-align: left; width: 60%; padding-left: 5px; }
     .ph-hazard-table td:not(:first-child) { width: 13.33%; }
-    .ph-cat-row { background-color: #d8d8d8; font-weight: bold; font-size: 8.5px; letter-spacing: 0.5px; color: black; }
+    .ph-cat-row { background-color: #d8d8d8; font-weight: bold; font-size: 8px; letter-spacing: 0.5px; color: black; }
 
-    /* [CHANGE 4] TBT info box */
-    .ph-tbt-box { border: 1.5px solid #333; padding: 7px 8px; min-height: 30px; font-size: 9.5px; margin-bottom: 6px; background: #fafafa; line-height: 1.5; white-space: pre-wrap; color: black; }
-    .ph-tbt-box-label { font-size: 9px; font-weight: 900; background: #e0e0e0; color: black; padding: 4px 6px; border: 1.5px solid #333; border-bottom: none; text-transform: uppercase; letter-spacing: 1px; }
+    /* TBT info box */
+    .ph-tbt-box { border: 1.5px solid #333; padding: 4px 6px; min-height: 18px; font-size: 9px; margin-bottom: 3px; background: #fafafa; line-height: 1.4; white-space: pre-wrap; color: black; }
+    .ph-tbt-box-label { font-size: 8.5px; font-weight: 900; background: #e0e0e0; color: black; padding: 3px 6px; border: 1.5px solid #333; border-bottom: none; text-transform: uppercase; letter-spacing: 1px; }
 
-    /* [CHANGE 4] Signature section */
-    .ph-sig-row { display: flex; justify-content: space-between; margin-top: 8px; padding: 5px 0; border-top: 1px solid #999; }
+    /* Signature section */
+    .ph-sig-row { display: flex; justify-content: space-between; margin-top: 4px; padding: 3px 0; border-top: 1px solid #999; }
     .ph-sig-item { text-align: center; width: 150px; }
     .ph-sig-img { height: 35px; width: 100%; border-bottom: 1.5px dotted #000; margin-bottom: 3px; object-fit: contain; }
     .ph-sig-label { font-size: 9px; font-weight: bold; color: black; }
@@ -386,16 +386,16 @@
     }
     .p-attach-content img { max-width: 100%; display: block; margin: 0 auto 8px; border: 1px solid #ccc; }
 
-    /* [CHANGE 4] Attendance table improvements */
-    .print-table { width: 100%; border-collapse: collapse; font-size: 8.5px; border: 1.5px solid #333; margin-top: 5px; table-layout: fixed; }
-    .print-table th, .print-table td { border: 1px solid #555; padding: 5px 4px; text-align: center; color: black; }
-    .print-table th { background-color: #e0e0e0; font-weight: bold; height: 26px; color: black; font-size: 9px; }
-    .print-table td { height: 28px; vertical-align: middle; font-size: 8px; }
-    .pt-img { width: 32px; height: 32px; object-fit: cover; display: block; margin: 0 auto; border: 1px solid #ccc; }
-    .pt-sig { height: 22px; width: 100%; object-fit: contain; background: white; }
+    /* Attendance table */
+    .print-table { width: 100%; border-collapse: collapse; font-size: 8px; border: 1.5px solid #333; margin-top: 4px; table-layout: fixed; }
+    .print-table th, .print-table td { border: 1px solid #555; padding: 3px 3px; text-align: center; color: black; }
+    .print-table th { background-color: #e0e0e0; font-weight: bold; height: 22px; color: black; font-size: 8.5px; }
+    .print-table td { height: 22px; vertical-align: middle; font-size: 8px; }
+    .pt-img { width: 28px; height: 28px; object-fit: cover; display: block; margin: 0 auto; border: 1px solid #ccc; }
+    .pt-sig { height: 18px; width: 100%; object-fit: contain; background: white; }
 
-    /* [CHANGE 4] Attendance page header (repeated for page 2) */
-    .pdf-page-2-header { border-bottom: 2px solid black; margin-bottom: 6px; padding-bottom: 5px; }
+    /* Attendance page header (page 2) */
+    .pdf-page-2-header { border-bottom: 2px solid black; margin-bottom: 4px; padding-bottom: 3px; }
     .attendance-section-title { font-size: 11px; font-weight: 900; text-align: center; text-transform: uppercase; letter-spacing: 1px; padding: 5px; background: #e0e0e0; border: 1.5px solid #333; margin-bottom: 5px; }
 
 </style>
