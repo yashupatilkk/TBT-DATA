@@ -121,7 +121,6 @@
     select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; }
     input[readonly] { background: rgba(0,0,0,0.2); cursor: not-allowed; color: var(--text-muted); border-color: transparent; }
 
-    /* [CHANGE 5] Permit Type / conditional input consistent styling */
     .conditional-input {
         width: 100%;
         padding: 12px 16px;
@@ -165,7 +164,6 @@
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(20, 184, 166, 0.4); filter: brightness(1.1); }
     .btn-primary:active { transform: translateY(0); }
 
-    /* [CHANGE 6] Ensure btn-save is always visible */
     .btn-save {
         width: 100%; margin-top: 10px; padding: 16px; font-size: 1.05rem; letter-spacing: 0.5px;
         background: linear-gradient(135deg, var(--success), #047857); color: white;
@@ -278,7 +276,7 @@
     .drive-alert { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
 
     /* ==========================================================================
-       PROFESSIONAL PRINT / PDF CSS  [CHANGE 4 - Improved layout]
+       PROFESSIONAL PRINT / PDF CSS
        ========================================================================== */
     
     #printableArea { display: none; }
@@ -296,7 +294,6 @@
         #printableArea { display: block; position: absolute; left: 0; top: 0; width: 100%; margin: 0; box-shadow: none; }
     }
 
-    /* [CHANGE 4] Improved overall PDF font sizes and spacing */
     #printableArea {
         background: white;
         color: black;
@@ -310,7 +307,6 @@
         font-size: 9.5px;
     }
     
-    /* PDF Page containers */
     .pdf-page-1 {
         min-height: 277mm;
         box-sizing: border-box;
@@ -321,7 +317,6 @@
         box-sizing: border-box;
     }
 
-    /* Print header improvements */
     .print-header { border-bottom: 2px solid black; margin-bottom: 4px; padding-bottom: 4px; }
     .ph-logo-area { display: flex; justify-content: space-between; align-items: center; height: 42px; margin-bottom: 3px; }
     .ph-logo-area img { height: 100%; width: auto; max-height: 42px; object-fit: contain; }
@@ -332,20 +327,17 @@
     .ph-meta-table td { border: 1px solid black; padding: 2px 4px; }
     .ph-doc-title { font-size: 9.5px; font-weight: 800; text-transform: uppercase; text-align: left; width: 58%; padding-right: 8px; line-height: 1.3; }
 
-    /* Main details grid */
     .ph-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 6px; font-size: 9px; margin-bottom: 4px; }
     .ph-row { display: flex; align-items: stretch; }
     .ph-label { background: #efefef; padding: 3px 5px; border: 1px solid #555; font-weight: bold; width: 105px; flex-shrink: 0; display: flex; align-items: center; font-size: 8px; }
     .ph-value { padding: 3px 5px; border: 1px solid #555; flex-grow: 1; min-height: 16px; font-size: 8.5px; }
 
-    /* Section wrappers */
     .ph-section-wrapper { border: 1.5px solid #333; margin-bottom: 3px; padding: 2px; break-inside: avoid; }
     .ph-section-header { font-size: 9px; font-weight: 900; background: #e0e0e0; color: black; padding: 3px 6px; text-align: center; border-bottom: 1.5px solid #333; text-transform: uppercase; letter-spacing: 1px; }
     .ph-tick-grid { padding: 4px 6px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 16px; row-gap: 2px; font-size: 8px; line-height: 1.3; font-family: 'Arial', sans-serif; }
     .ph-tick-item { display: flex; align-items: flex-start; gap: 5px; margin-bottom: 0; }
     .ph-tick-item input { transform: scale(0.9); margin: 1px 0 0 0; accent-color: black; flex-shrink: 0; width: 11px; height: 11px; }
 
-    /* Hazard section */
     .ph-hazard-section { border: 1.5px solid #333; margin-bottom: 3px; padding-bottom: 1px; break-inside: avoid; }
     .ph-hazard-header { font-size: 9px; font-weight: 900; background: #e0e0e0; color: black; padding: 3px 6px; text-align: center; border-bottom: 1.5px solid #333; text-transform: uppercase; letter-spacing: 1px; }
     .ph-hazard-table { width: 100%; border-collapse: collapse; font-size: 8px; table-layout: fixed; border: 1px solid #555; }
@@ -355,18 +347,17 @@
     .ph-hazard-table td:not(:first-child) { width: 13.33%; }
     .ph-cat-row { background-color: #d8d8d8; font-weight: bold; font-size: 8px; letter-spacing: 0.5px; color: black; }
 
-    /* TBT info box */
     .ph-tbt-box { border: 1.5px solid #333; padding: 4px 6px; min-height: 18px; font-size: 9px; margin-bottom: 3px; background: #fafafa; line-height: 1.4; white-space: pre-wrap; color: black; }
     .ph-tbt-box-label { font-size: 8.5px; font-weight: 900; background: #e0e0e0; color: black; padding: 3px 6px; border: 1.5px solid #333; border-bottom: none; text-transform: uppercase; letter-spacing: 1px; }
 
-    /* Signature section */
+    /* UPDATED: Conductor signature area — name + ID shown side-by-side under signature */
     .ph-sig-row { display: flex; justify-content: space-between; margin-top: 4px; padding: 3px 0; border-top: 1px solid #999; }
     .ph-sig-item { text-align: center; width: 150px; }
     .ph-sig-img { height: 35px; width: 100%; border-bottom: 1.5px dotted #000; margin-bottom: 3px; object-fit: contain; }
     .ph-sig-label { font-size: 9px; font-weight: bold; color: black; }
     .ph-sig-name { font-size: 8px; font-weight: 600; color: #333; margin-top: 2px; }
+    .ph-sig-id   { font-size: 7.5px; font-weight: 500; color: #555; margin-top: 1px; }
 
-    /* Supporting document pages — each file on its own dedicated page */
     #p_attachmentPages { }
     .p-attach-page {
         page-break-before: always;
@@ -386,7 +377,6 @@
     }
     .p-attach-content img { max-width: 100%; display: block; margin: 0 auto 8px; border: 1px solid #ccc; }
 
-    /* Attendance table */
     .print-table { width: 100%; border-collapse: collapse; font-size: 8px; border: 1.5px solid #333; margin-top: 4px; table-layout: fixed; }
     .print-table th, .print-table td { border: 1px solid #555; padding: 3px 3px; text-align: center; color: black; }
     .print-table th { background-color: #e0e0e0; font-weight: bold; height: 22px; color: black; font-size: 8.5px; }
@@ -394,7 +384,6 @@
     .pt-img { width: 28px; height: 28px; object-fit: cover; display: block; margin: 0 auto; border: 1px solid #ccc; }
     .pt-sig { height: 18px; width: 100%; object-fit: contain; background: white; }
 
-    /* Attendance page header (page 2) */
     .pdf-page-2-header { border-bottom: 2px solid black; margin-bottom: 4px; padding-bottom: 3px; }
     .attendance-section-title { font-size: 11px; font-weight: 900; text-align: center; text-transform: uppercase; letter-spacing: 1px; padding: 5px; background: #e0e0e0; border: 1.5px solid #333; margin-bottom: 5px; }
 
@@ -493,7 +482,6 @@
                     <input type="text" id="permitNo" required>
                 </div>
 
-                <!-- [CHANGE 5] Permit Type - corrected formatting matching other fields -->
                 <div class="col-4">
                     <label class="required">Permit Type</label>
                     <select id="permitType" required onchange="handlePermitTypeChange()">
@@ -508,10 +496,16 @@
                     <input type="text" id="otherPermitInput" class="conditional-input" placeholder="Specify Permit Type" style="display:none;">
                 </div>
 
-                <div class="col-4">
+                <!-- Conductor Name + Conductor ID side by side -->
+                <div class="col-3">
                     <label class="required">Conductor Name</label>
                     <input type="text" id="conductor" placeholder="Full Name" required>
                 </div>
+                <div class="col-3">
+                    <label class="required">Conductor ID</label>
+                    <input type="text" id="conductorId" placeholder="Badge / Employee ID" required>
+                </div>
+
                 <div class="col-6">
                     <label class="required">Designation</label>
                     <input type="text" id="designation" placeholder="Role" required>
@@ -619,7 +613,6 @@
         </div>
     </form>
 
-    <!-- [CHANGE 6] Main Save Button - always visible at bottom -->
     <button class="btn btn-save" id="btnSave" onclick="saveRecord()">
         <i class="fa-solid fa-cloud-arrow-up"></i> Save Record &amp; Upload
     </button>
@@ -677,11 +670,11 @@
 </div>
 
 <!-- ==========================================================================
-     PRINTABLE DOCUMENT  [CHANGE 3 - Two-page layout + CHANGE 4 - Better formatting]
+     PRINTABLE DOCUMENT
      ========================================================================== -->
 <div id="printableArea">
 
-    <!-- ====== PAGE 1: TBT Details, Safety Rules, Hazard, TBT Info, Conductor Sig ====== -->
+    <!-- PAGE 1 -->
     <div class="pdf-page-1">
         <div class="print-header">
             <div class="ph-logo-area">
@@ -703,6 +696,7 @@
         <div style="border:1.5px solid #333; padding:5px; margin-bottom:6px;">
             <div class="ph-grid">
                 <div class="ph-row"><div class="ph-label">1. TBT No</div><div class="ph-value" id="p_tbtNumber"></div></div>
+                <!-- CHANGE 1: Time now shows AM/PM via formatTimeAmPm() in populatePrintable -->
                 <div class="ph-row"><div class="ph-label">2. Date</div><div class="ph-value" id="p_date"></div></div>
                 <div class="ph-row"><div class="ph-label">3. Activity</div><div class="ph-value" id="p_topic"></div></div>
                 <div class="ph-row"><div class="ph-label">4. Time</div><div class="ph-value" id="p_time"></div></div>
@@ -726,17 +720,19 @@
         <div class="ph-tbt-box-label">TBT Activity / Covered Information</div>
         <div class="ph-tbt-box" id="p_tbtInfo"></div>
         
+        <!-- CHANGE 2: Conductor signature block — Name + ID shown below signature line -->
         <div class="ph-sig-row">
             <div class="ph-sig-item">
                 <img id="p_condSig" class="ph-sig-img" src="" style="display:none;">
                 <div class="ph-sig-label">Conductor Signature</div>
                 <div class="ph-sig-name" id="p_conductorName"></div>
+                <div class="ph-sig-id" id="p_conductorIdDisplay"></div>
             </div>
         </div>
     </div>
-    <!-- ====== END PAGE 1 ====== -->
+    <!-- END PAGE 1 -->
 
-    <!-- ====== PAGE 2: Attendee Details, Photos, IDs, Signatures, Attendance Sheet ====== -->
+    <!-- PAGE 2 -->
     <div class="pdf-page-2">
         <div class="pdf-page-2-header">
             <div class="ph-logo-area">
@@ -762,9 +758,9 @@
             <tbody id="p_attendeesBody"></tbody>
         </table>
     </div>
-    <!-- ====== END PAGE 2 ====== -->
+    <!-- END PAGE 2 -->
 
-    <!-- Supporting document pages (one per file, each on its own page) -->
+    <!-- Supporting document pages -->
     <div id="p_attachmentPages"></div>
 
 </div>
@@ -816,6 +812,20 @@ const HAZARD_CHECKLIST_DATA = {
     "Height Work": { title: "Work at Height Checklist", sections: [{ name: "Permit & Auth", items: ["Valid Height Permit", "Permit displayed", "Workers trained", "Rescue plan"] }, { name: "Pre-Work", items: ["Area inspected", "Fall hazards identified", "Access safe", "Weather ok"] }, { name: "PPE", items: ["Full body harness", "Double lanyard", "Helmet with strap", "Shoes", "Jacket"] }, { name: "Fall Protection", items: ["Anchor point certified", "Lifeline installed", "Guardrails", "Safety net (if req)"] }, { name: "Access Equip", items: ["Ladder inspected", "Scaffold tagged", "Platform secured", "Toe boards"] }] },
     "Electrical": { title: "Electrical Work Checklist", sections: [{ name: "Permit & Auth", items: ["Valid Electrical PTW", "Authorized electrician", "Permit displayed", "Scope explained"] }, { name: "Isolation & LOTO", items: ["Power isolated", "Lockout applied", "Tagout applied", "Isolation verified"] }, { name: "Testing", items: ["Voltage tested", "Zero energy", "Test equipment calibrated", "Earth continuity"] }, { name: "PPE", items: ["Electrical gloves", "Arc flash shield", "Helmet", "Shoes", "Goggles"] }, { name: "Tools", items: ["Insulated tools", "Extension cables checked", "Panels secured", "No damage"] }] }
 };
+
+// ============================================================
+// CHANGE 1: Helper — convert HH:MM (24h) to hh:MM AM/PM
+// ============================================================
+function formatTimeAmPm(timeStr) {
+    if (!timeStr) return '-';
+    var parts = timeStr.split(':');
+    var hours = parseInt(parts[0], 10);
+    var mins = parts[1] || '00';
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    var h12 = hours % 12;
+    if (h12 === 0) h12 = 12;
+    return String(h12).padStart(2, '0') + ':' + mins + ' ' + ampm;
+}
 
 function showToast(msg, type) {
     type = type || 'success';
@@ -1026,13 +1036,9 @@ function renderPrintableChecklist(permitType, checklistData) {
     container.innerHTML = html;
 }
 
-// [CHANGE 2] Generate PDF filename in format: TBT_Number_Date_Time.pdf
-// Example: PTS-TBT-001_12-06-2026_10-30-AM.pdf
+// PDF filename: TBT_Number_Date_Time.pdf  e.g. PTS-TBT-001_12-06-2026_10-30-AM.pdf
 function generatePdfFilename(record) {
-    // TBT Number (e.g. PTS-TBT-001)
     var tbtNum = (record.tbtNumber || 'TBT').replace(/[^a-zA-Z0-9\-]/g, '_');
-    
-    // Date: convert yyyy-mm-dd to dd-mm-yyyy
     var d = record.date || '';
     var dateParts = d.split('-');
     var dateStr;
@@ -1041,8 +1047,6 @@ function generatePdfFilename(record) {
     } else {
         dateStr = d.replace(/-/g, '') || 'nodate';
     }
-    
-    // Time: convert HH:MM (24h) to HH-MM-AM/PM
     var timeStr = record.time || '00:00';
     var timeParts = timeStr.split(':');
     var hours = parseInt(timeParts[0]) || 0;
@@ -1050,7 +1054,6 @@ function generatePdfFilename(record) {
     var ampm = hours >= 12 ? 'PM' : 'AM';
     var h12 = hours % 12 || 12;
     var timeForFile = String(h12).padStart(2, '0') + '-' + mins + '-' + ampm;
-    
     return tbtNum + '_' + dateStr + '_' + timeForFile + '.pdf';
 }
 
@@ -1184,7 +1187,6 @@ function renderAttendeeTable(){
     tb.innerHTML='';
     for(var i=0;i<currentAttendees.length;i++){
         var a=currentAttendees[i];
-        // Support both old (photo) and new (photos[]) format
         var photoArr = a.photos || (a.photo ? [a.photo] : []);
         var photoHtml = photoArr.map(function(p){ return '<img src="'+p+'" class="pt-img" style="margin:2px;">'; }).join('');
         if(photoArr.length > 1) photoHtml = '<div style="display:flex;flex-wrap:wrap;gap:2px;">'+photoHtml+'</div>';
@@ -1195,9 +1197,7 @@ function removeAttendee(i){currentAttendees.splice(i,1);renderAttendeeTable()}
 
 function setSaveButtonsDisabled(disabled) {
     var btn = document.getElementById('btnSave');
-    var btnInline = null;
     if(btn) btn.disabled = disabled;
-    if(btnInline) btnInline.disabled = disabled;
 }
 
 async function saveRecord(){
@@ -1206,8 +1206,9 @@ async function saveRecord(){
     var dept = deptEl.value === 'OTHER' ? document.getElementById('otherDeptInput').value.trim() : deptEl.value;
     var pTypeEl = document.getElementById('permitType');
     var pType = pTypeEl.value === 'Other' ? document.getElementById('otherPermitInput').value.trim() : pTypeEl.value;
+    var conductorId = document.getElementById('conductorId').value.trim();
     
-    if(!topic || !dept || !document.getElementById('conductor').value.trim() || !document.getElementById('date').value || !document.getElementById('time').value || !currentAttendees.length){
+    if(!topic || !dept || !document.getElementById('conductor').value.trim() || !conductorId || !document.getElementById('date').value || !document.getElementById('time').value || !currentAttendees.length){
         showToast("Please fill all mandatory fields and add attendees.", "error");
         return;
     }
@@ -1251,7 +1252,6 @@ async function saveRecord(){
     var tbtNum = document.getElementById('tbtNumber').value;
     var tbtTime = document.getElementById('time').value;
 
-    // Read ALL selected supporting documents (images + PDFs)
     var fileInput = document.getElementById('tbtAttachment');
     var attachmentsArray = [];
     if(fileInput.files && fileInput.files.length > 0) {
@@ -1270,6 +1270,8 @@ async function saveRecord(){
         department: dept,
         project: document.getElementById('project').value,
         conductor: document.getElementById('conductor').value.trim(),
+        // CHANGE 2: store conductorId in record
+        conductorId: conductorId,
         designation: document.getElementById('designation').value.trim(),
         date: document.getElementById('date').value,
         time: tbtTime,
@@ -1285,7 +1287,7 @@ async function saveRecord(){
         tickPoints: tickPointsChecked,
         hazardChecklist: checklistData,
         attachments: attachmentsArray,
-        attachment: attachmentsArray.length > 0 ? attachmentsArray[0] : null  // backwards compat
+        attachment: attachmentsArray.length > 0 ? attachmentsArray[0] : null
     };
     
     records.push(record);
@@ -1299,6 +1301,7 @@ async function saveRecord(){
         department: record.department,
         project: record.project,
         conductor: record.conductor,
+        conductorId: record.conductorId,
         designation: record.designation,
         date: record.date,
         time: record.time,
@@ -1342,7 +1345,6 @@ async function saveRecord(){
         await waitForImages(document.getElementById('printableArea'));
         await new Promise(function(r){ setTimeout(r, 600) });
         
-        // [CHANGE 4] Better PDF options for quality + [CHANGE 3] page breaks
         var pdfUri = await html2pdf().set({
             margin: 0,
             image: { type: 'jpeg', quality: 0.95 },
@@ -1354,8 +1356,6 @@ async function saveRecord(){
         document.body.classList.remove('pdf-capture');
         
         var base64 = pdfUri.split(',')[1].replace(/[\s\r\n\t\f\v\u00a0]/g, '');
-
-        // [CHANGE 2] Use new filename format: PTS-TBT-001_12-06-2026_10-30-AM.pdf
         var filename = generatePdfFilename(record);
         
         var attachParams = '';
@@ -1409,7 +1409,6 @@ async function uploadToDrive(id){
         }).from(document.getElementById('printableArea')).output('datauristring');
         document.body.classList.remove('pdf-capture');
         var base64=pdfUri.split(',')[1].replace(/[\s\r\n\t\f\v\u00a0]/g,'');
-        // [CHANGE 2] Use new filename format
         var filename = generatePdfFilename(rec);
         var attachParams='';
         if(rec.attachment){attachParams="&attachName="+encodeURIComponent(rec.attachment.name)+"&attachBase64="+encodeURIComponent(rec.attachment.base64)+"&attachMime="+encodeURIComponent(rec.attachment.mime);}
@@ -1432,7 +1431,6 @@ async function downloadRecord(id){
         await populatePrintable(id);document.body.classList.add('pdf-capture');window.scrollTo(0,0);
         await waitForImages(document.getElementById('printableArea'));
         await new Promise(function(r){setTimeout(r,600)});
-        // [CHANGE 2] Use new filename format
         var fn = generatePdfFilename(rec);
         await html2pdf().set({
             margin:0,
@@ -1448,7 +1446,6 @@ async function downloadRecord(id){
 
 function downloadCurrentPDF(){if(currentPreviewId)downloadRecord(currentPreviewId)}
 
-// Render a PDF base64 into an HTML container as a series of <img> tags (for html2pdf compatibility)
 async function renderPdfPagesAsImages(base64, container) {
     try {
         if(typeof pdfjsLib === 'undefined') {
@@ -1494,17 +1491,29 @@ async function populatePrintable(id){
     document.getElementById('p_conductor').textContent=r.conductor||'-';
     document.getElementById('p_designation').textContent=r.designation||'-';
     document.getElementById('p_date').textContent=r.date||'-';
-    document.getElementById('p_time').textContent=r.time||'-';
+
+    // CHANGE 1: Display time with AM/PM in the PDF
+    document.getElementById('p_time').textContent = formatTimeAmPm(r.time);
+
     document.getElementById('p_permitNo').textContent=(r.permitNo||'-')+'  /  '+(r.permitType||'-');
     document.getElementById('p_tbtInfo').textContent=r.tbtInfo||'';
     var si=document.getElementById('p_condSig');
     if(r.conductorSig&&r.conductorSig.length>100){si.src=r.conductorSig;si.style.display='block'}else{si.style.display='none'}
-    document.getElementById('p_conductorName').textContent=r.conductor||'';
+
+    // CHANGE 2: Show conductor name AND conductor ID in the PDF signature block
+    document.getElementById('p_conductorName').textContent = r.conductor || '';
+    var idEl = document.getElementById('p_conductorIdDisplay');
+    if(r.conductorId) {
+        idEl.textContent = 'ID: ' + r.conductorId;
+        idEl.style.display = 'block';
+    } else {
+        idEl.textContent = '';
+        idEl.style.display = 'none';
+    }
     
     var tb=document.getElementById('p_attendeesBody');tb.innerHTML='';
     if(r.attendees)for(var i=0;i<r.attendees.length;i++){
         var a=r.attendees[i];
-        // Support both old single photo and new multiple photos format
         var photoArr = a.photos || (a.photo ? [a.photo] : []);
         var phHtml = photoArr.map(function(p){ return '<img src="'+p+'" class="pt-img" style="margin:1px;">'; }).join('');
         if(photoArr.length > 1) phHtml = '<div style="display:flex;flex-wrap:wrap;gap:1px;justify-content:center;">'+phHtml+'</div>';
@@ -1519,7 +1528,6 @@ async function populatePrintable(id){
     
     renderPrintableChecklist(r.permitType, r.hazardChecklist);
     
-    // Build attachment pages: support new `attachments[]` array and old single `attachment`
     var attachPages = document.getElementById('p_attachmentPages');
     attachPages.innerHTML = '';
     var attList = (r.attachments && r.attachments.length > 0) ? r.attachments : (r.attachment ? [r.attachment] : []);
@@ -1557,6 +1565,8 @@ function directPrint(){window.print()}
 function resetForm(){
     updateTBTNumberDisplay();
     document.getElementById('topic').value='';document.getElementById('conductor').value='';
+    // CHANGE 2: clear conductor ID on reset
+    document.getElementById('conductorId').value='';
     document.getElementById('designation').value='';document.getElementById('tbtInfo').value='';
     document.getElementById('permitNo').value='';document.getElementById('department').value='';
     document.getElementById('otherDeptInput').style.display='none';document.getElementById('otherDeptInput').value='';
@@ -1569,6 +1579,7 @@ function resetForm(){
     var checkboxes = document.querySelectorAll('.tick-item input[type="checkbox"]');
     checkboxes.forEach(function(cb) { cb.checked = false; });
     document.getElementById('hazardFormContainer').innerHTML='';document.getElementById('hazardFormContainer').style.display='none';
+    document.getElementById('condSigStatus').style.display='none';
 }
 
 function deleteRecord(id){if(confirm("Delete this record?")){records=records.filter(function(r){return r.id!==id});localStorage.setItem(STORAGE_KEY,JSON.stringify(records));renderDashboard();showToast("Record deleted.")}}
@@ -1577,8 +1588,8 @@ function downloadFilteredData(){
     var sd=document.getElementById('filterStartDate').value,ed=document.getElementById('filterEndDate').value,f=records;
     if(sd&&ed)f=records.filter(function(r){return r.date>=sd&&r.date<=ed});
     if(!f.length){showToast("No records found.", "error");return}
-    var csv="data:text/csv;charset=utf-8,";csv+="S.No,TBT No,Permit No,Date,Time,Permit Type,Department,Project,Buildings,Company,Conductor,Created On,Drive Link\n";
-    for(var i=0;i<f.length;i++){var r=f[i];function esc(t){return '"'+String(t).replace(/"/g,'""')+'"'}csv+=[i+1,esc(r.tbtNumber||"TBT-"+r.id),esc(r.permitNo||"TBT-"+r.id.toString().slice(-6)),esc(formatDateCustom(r.date)),esc(r.time||"-"),esc(r.permitType||"General"),esc(r.department),esc(r.project),esc(r.buildings?r.buildings.join('; '):"N/A"),esc(r.attendees.length>0?r.attendees[0].company:"N/A"),esc(r.conductor),esc(formatDateCustom(r.timestamp)),esc(r.driveUrl||"Not uploaded")].join(",")+"\n"}
+    var csv="data:text/csv;charset=utf-8,";csv+="S.No,TBT No,Permit No,Date,Time,Permit Type,Department,Project,Buildings,Company,Conductor,Conductor ID,Created On,Drive Link\n";
+    for(var i=0;i<f.length;i++){var r=f[i];function esc(t){return '"'+String(t).replace(/"/g,'""')+'"'}csv+=[i+1,esc(r.tbtNumber||"TBT-"+r.id),esc(r.permitNo||"TBT-"+r.id.toString().slice(-6)),esc(formatDateCustom(r.date)),esc(formatTimeAmPm(r.time)),esc(r.permitType||"General"),esc(r.department),esc(r.project),esc(r.buildings?r.buildings.join('; '):"N/A"),esc(r.attendees.length>0?r.attendees[0].company:"N/A"),esc(r.conductor),esc(r.conductorId||""),esc(formatDateCustom(r.timestamp)),esc(r.driveUrl||"Not uploaded")].join(",")+"\n"}
     var l=document.createElement("a");l.setAttribute("href",encodeURI(csv));l.setAttribute("download",(sd&&ed?'TBT_'+sd+'_to_'+ed+'.csv':'TBT_All.csv'));document.body.appendChild(l);l.click();document.body.removeChild(l);
 }
 
@@ -1597,7 +1608,7 @@ function renderDashboard(){
         var db='',drv='';
         if(r.driveUrl){db='<span class="drive-badge drive-ok"><i class="fa-solid fa-check"></i> UPLOADED</span>'}else{db='<span class="drive-badge drive-alert"><i class="fa-solid fa-triangle-exclamation"></i> MISSING</span>';drv='<button class="btn btn-secondary btn-sm" onclick="uploadToDrive('+r.id+')">Retry</button>'}
         var typeClass = r.permitType === 'Hot Work' ? 'badge-hot' : 'badge-general';
-        tb.innerHTML+='<tr><td><div style="font-weight:600;">'+dn+'</div><div style="font-size:0.75rem;color:var(--text-muted);">'+formatDateCustom(r.date)+'</div></td><td style="color:var(--primary);font-weight:700;">'+(r.tbtNumber||'-')+'</td><td style="font-weight:500;">'+r.topic+'</td><td><span class="badge '+typeClass+'">'+(r.permitType||'N/A')+'</span></td><td>'+r.time+'</td><td>'+db+'</td><td style="text-align:right;"><div style="display:flex;gap:8px; justify-content:flex-end;">'+drv+'<button class="btn btn-secondary btn-sm" onclick="previewRecord('+r.id+')"><i class="fa-solid fa-eye"></i></button><button class="btn btn-secondary btn-sm" onclick="downloadRecord('+r.id+')"><i class="fa-solid fa-download"></i></button><button class="btn btn-danger btn-sm" onclick="deleteRecord('+r.id+')"><i class="fa-solid fa-trash"></i></button></div></td></tr>';
+        tb.innerHTML+='<tr><td><div style="font-weight:600;">'+dn+'</div><div style="font-size:0.75rem;color:var(--text-muted);">'+formatDateCustom(r.date)+'</div></td><td style="color:var(--primary);font-weight:700;">'+(r.tbtNumber||'-')+'</td><td style="font-weight:500;">'+r.topic+'</td><td><span class="badge '+typeClass+'">'+(r.permitType||'N/A')+'</span></td><td>'+formatTimeAmPm(r.time)+'</td><td>'+db+'</td><td style="text-align:right;"><div style="display:flex;gap:8px; justify-content:flex-end;">'+drv+'<button class="btn btn-secondary btn-sm" onclick="previewRecord('+r.id+')"><i class="fa-solid fa-eye"></i></button><button class="btn btn-secondary btn-sm" onclick="downloadRecord('+r.id+')"><i class="fa-solid fa-download"></i></button><button class="btn btn-danger btn-sm" onclick="deleteRecord('+r.id+')"><i class="fa-solid fa-trash"></i></button></div></td></tr>';
     }
 }
 
@@ -1612,7 +1623,6 @@ window.onload=function(){
     renderDashboard();
     syncTbtCounter();
 
-    // Supporting document preview when files are selected
     document.getElementById('tbtAttachment').addEventListener('change', function(){
         var preview = document.getElementById('tbtAttachmentPreview');
         preview.innerHTML = '';
@@ -1648,7 +1658,6 @@ window.onload=function(){
         }
     });
 
-    // Multi-photo preview when files are selected
     document.getElementById('attPhoto').addEventListener('change', function(){
         var preview = document.getElementById('attPhotoPreview');
         preview.innerHTML = '';
