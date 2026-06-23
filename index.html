@@ -1348,9 +1348,9 @@ async function saveRecord(){
         var pdfUri = await html2pdf().set({
             margin: 0,
             image: { type: 'jpeg', quality: 0.95 },
-            html2canvas: { scale: 2, useCORS: true, logging: false, allowTaint: true, backgroundColor: '#ffffff', dpi: 192 },
+            html2canvas: { scale: 2, useCORS: true, logging: false, allowTaint: true, backgroundColor: '#ffffff', onclone:function(d){var e=d.getElementById('printableArea');if(e)e.style.setProperty('display','block','important');} },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-            pagebreak: { mode: ['css', 'avoid-all'], before: '.pdf-page-2, #p_attachmentContainer' }
+            pagebreak: { mode: ['css'], before: '.pdf-page-2, .p-attach-page' }
         }).from(document.getElementById('printableArea')).output('datauristring');
         
         document.body.classList.remove('pdf-capture');
@@ -1403,9 +1403,9 @@ async function uploadToDrive(id){
         var pdfUri=await html2pdf().set({
             margin:0,
             image:{type:'jpeg',quality:0.95},
-            html2canvas:{scale:2,useCORS:true,logging:false,allowTaint:true,backgroundColor:'#ffffff',dpi:192},
+            html2canvas:{scale:2,useCORS:true,logging:false,allowTaint:true,backgroundColor:'#ffffff',onclone:function(d){var e=d.getElementById('printableArea');if(e)e.style.setProperty('display','block','important');}},
             jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
-            pagebreak:{mode:['css','avoid-all'],before:'.pdf-page-2, #p_attachmentContainer'}
+            pagebreak:{mode:['css'],before:'.pdf-page-2, .p-attach-page'}
         }).from(document.getElementById('printableArea')).output('datauristring');
         document.body.classList.remove('pdf-capture');
         var base64=pdfUri.split(',')[1].replace(/[\s\r\n\t\f\v\u00a0]/g,'');
@@ -1436,9 +1436,9 @@ async function downloadRecord(id){
             margin:0,
             filename:fn,
             image:{type:'jpeg',quality:0.95},
-            html2canvas:{scale:2,useCORS:true,allowTaint:true,logging:false,backgroundColor:'#ffffff',dpi:192},
+            html2canvas:{scale:2,useCORS:true,allowTaint:true,logging:false,backgroundColor:'#ffffff',onclone:function(d){var e=d.getElementById('printableArea');if(e)e.style.setProperty('display','block','important');}},
             jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
-            pagebreak:{mode:['css','avoid-all'],before:'.pdf-page-2, #p_attachmentContainer'}
+            pagebreak:{mode:['css'],before:'.pdf-page-2, .p-attach-page'}
         }).from(document.getElementById('printableArea')).save();
         document.body.classList.remove('pdf-capture');hideLoading();
     }catch(e){document.body.classList.remove('pdf-capture');hideLoading();showToast("PDF Error: "+e.message, "error")}
