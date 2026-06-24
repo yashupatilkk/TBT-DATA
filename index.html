@@ -381,8 +381,10 @@
     .print-table th, .print-table td { border: 1px solid #555; padding: 3px 3px; text-align: center; color: black; }
     .print-table th { background-color: #e0e0e0; font-weight: bold; height: 22px; color: black; font-size: 8.5px; }
     .print-table td { height: 22px; vertical-align: middle; font-size: 8px; }
+    .print-table tr { page-break-inside: avoid; break-inside: avoid; }
     .pt-img { width: 28px; height: 28px; object-fit: cover; display: block; margin: 0 auto; border: 1px solid #ccc; }
     .pt-sig { height: 18px; width: 100%; object-fit: contain; background: white; }
+    .pdf-attendance-page { page-break-before: always; padding-top: 4mm; box-sizing: border-box; }
 
     .pdf-page-2-header { border-bottom: 2px solid black; margin-bottom: 4px; padding-bottom: 3px; }
     .attendance-section-title { font-size: 11px; font-weight: 900; text-align: center; text-transform: uppercase; letter-spacing: 1px; padding: 5px; background: #e0e0e0; border: 1.5px solid #333; margin-bottom: 5px; }
@@ -1178,7 +1180,15 @@ function addAttendee(){
     Promise.all(files.map(compressImagePromise)).then(function(photos){
         currentAttendees.push({name:n,desig:d,company:co,idNum:id,buildings:blds,signature:sig,photos:photos});
         renderAttendeeTable();
-        document.getElementById('attName').value='';document.getElementById('attDesig').value='';document.getElementById('attCompany').value='';document.getElementById('attID').value='';document.getElementById('attPhoto').value='';document.getElementById('attPhotoPreview').innerHTML='';clearCanvas('attSigCanvas');
+        document.getElementById('attName').value='';
+        document.getElementById('attDesig').value='';
+        document.getElementById('attCompany').value='';
+        document.getElementById('attID').value='';
+        document.getElementById('attPhoto').value='';
+        document.getElementById('attPhotoPreview').innerHTML='';
+        clearCanvas('attSigCanvas');
+        // Show a clear reminder that a fresh signature is needed for the NEXT attendee
+        showToast('Attendee '+currentAttendees.length+' added! Draw a NEW signature for the next person.', 'success');
     });
 }
 
@@ -1350,7 +1360,7 @@ async function saveRecord(){
             image: { type: 'jpeg', quality: 0.95 },
             html2canvas: { scale: 2, useCORS: true, logging: false, allowTaint: true, backgroundColor: '#ffffff', onclone:function(d){var e=d.getElementById('printableArea');if(e)e.style.setProperty('display','block','important');} },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-            pagebreak: { mode: ['css'], before: '.pdf-page-2, .p-attach-page' }
+            pagebreak: { mode: ['css'], before: '.pdf-page-2, .pdf-attendance-page, .p-attach-page' }
         }).from(document.getElementById('printableArea')).output('datauristring');
         
         document.body.classList.remove('pdf-capture');
@@ -1511,15 +1521,68 @@ async function populatePrintable(id){
         idEl.style.display = 'none';
     }
     
+    // --- ATTENDANCE: split into pages of 15 rows to avoid pdf clipping ---
+    var ATT_PER_PAGE = 15;
+    var attendees = r.attendees || [];
+    // Remove any old extra attendance pages
+    document.querySelectorAll('.pdf-attendance-page').forEach(function(el){ el.parentNode.removeChild(el); });
+    // Render first batch into the existing p_attendeesBody (pdf-page-2)
     var tb=document.getElementById('p_attendeesBody');tb.innerHTML='';
-    if(r.attendees)for(var i=0;i<r.attendees.length;i++){
-        var a=r.attendees[i];
+    var firstBatch = attendees.slice(0, ATT_PER_PAGE);
+    firstBatch.forEach(function(a, idx){
+        var i = idx;
         var photoArr = a.photos || (a.photo ? [a.photo] : []);
         var phHtml = photoArr.map(function(p){ return '<img src="'+p+'" class="pt-img" style="margin:1px;">'; }).join('');
         if(photoArr.length > 1) phHtml = '<div style="display:flex;flex-wrap:wrap;gap:1px;justify-content:center;">'+phHtml+'</div>';
         var sg=(a.signature&&a.signature.length>100)?'<img src="'+a.signature+'" class="pt-sig">':'';
         var bl=(a.buildings&&a.buildings.length)?a.buildings:(r.buildings||[]);
-        tb.innerHTML+='<tr><td>'+(i+1)+'</td><td>'+phHtml+'</td><td style="text-align:left;padding-left:4px;">'+a.name+'</td><td style="font-size:7px;">'+bl.join(', ')+'</td><td style="text-align:left;padding-left:4px;">'+a.company+'</td><td style="text-align:left;padding-left:4px;">'+a.desig+'</td><td>'+a.idNum+'</td><td>'+sg+'</td></tr>';
+        var esc=function(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');};
+        var tr=document.createElement('tr');
+        tr.innerHTML='<td>'+(i+1)+'</td><td>'+phHtml+'</td><td style="text-align:left;padding-left:4px;">'+esc(a.name)+'</td><td style="font-size:7px;">'+esc(bl.join(', '))+'</td><td style="text-align:left;padding-left:4px;">'+esc(a.company)+'</td><td style="text-align:left;padding-left:4px;">'+esc(a.desig)+'</td><td>'+esc(a.idNum)+'</td><td>'+sg+'</td>';
+        tb.appendChild(tr);
+    });
+    // Render overflow batches as extra pages inserted before #p_attachmentPages
+    var attachPages = document.getElementById('p_attachmentPages');
+    var overflowStart = ATT_PER_PAGE;
+    var pageNum = 2;
+    while(overflowStart < attendees.length){
+        var batch = attendees.slice(overflowStart, overflowStart + ATT_PER_PAGE);
+        var extraPage = document.createElement('div');
+        extraPage.className = 'pdf-attendance-page';
+        extraPage.innerHTML =
+            '<div class="pdf-page-2-header">' +
+                '<div class="ph-logo-area">' +
+                    '<img crossorigin="anonymous" src="imageslogo-left.png.jpeg" alt="POMPL Logo">' +
+                    '<img crossorigin="anonymous" src="imageslogo-right.png.png" alt="Prestige Logo">' +
+                '</div>' +
+                '<div class="ph-company-name">PRESTIGE OFFICE MANAGEMENT PRIVATE LIMITED</div>' +
+            '</div>' +
+            '<div class="attendance-section-title">Attendance Sheet (Continued — Page '+pageNum+')</div>' +
+            '<table class="print-table">' +
+                '<thead><tr>' +
+                    '<th style="width:4%">Sl</th><th style="width:9%">Photo</th>' +
+                    '<th style="width:16%">Name</th><th style="width:12%">Building</th>' +
+                    '<th style="width:16%">Company</th><th style="width:13%">Designation</th>' +
+                    '<th style="width:10%">ID No</th><th style="width:20%">Signature</th>' +
+                '</tr></thead>' +
+                '<tbody></tbody>' +
+            '</table>';
+        var extraTbody = extraPage.querySelector('tbody');
+        var esc=function(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');};
+        batch.forEach(function(a, bIdx){
+            var i = overflowStart + bIdx;
+            var photoArr = a.photos || (a.photo ? [a.photo] : []);
+            var phHtml = photoArr.map(function(p){ return '<img src="'+p+'" class="pt-img" style="margin:1px;">'; }).join('');
+            if(photoArr.length > 1) phHtml = '<div style="display:flex;flex-wrap:wrap;gap:1px;justify-content:center;">'+phHtml+'</div>';
+            var sg=(a.signature&&a.signature.length>100)?'<img src="'+a.signature+'" class="pt-sig">':'';
+            var bl=(a.buildings&&a.buildings.length)?a.buildings:(r.buildings||[]);
+            var tr=document.createElement('tr');
+            tr.innerHTML='<td>'+(i+1)+'</td><td>'+phHtml+'</td><td style="text-align:left;padding-left:4px;">'+esc(a.name)+'</td><td style="font-size:7px;">'+esc(bl.join(', '))+'</td><td style="text-align:left;padding-left:4px;">'+esc(a.company)+'</td><td style="text-align:left;padding-left:4px;">'+esc(a.desig)+'</td><td>'+esc(a.idNum)+'</td><td>'+sg+'</td>';
+            extraTbody.appendChild(tr);
+        });
+        attachPages.parentNode.insertBefore(extraPage, attachPages);
+        overflowStart += ATT_PER_PAGE;
+        pageNum++;
     }
     
     var printCheckboxes = document.querySelectorAll('.ph-tick-item input[type="checkbox"]');
