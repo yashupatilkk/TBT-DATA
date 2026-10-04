@@ -1301,7 +1301,13 @@ async function saveRecord(){
     };
     
     records.push(record);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+    } catch(storageErr) {
+        // A large PDF can exceed localStorage quota; do not abort Sheet/Drive upload.
+        console.warn('Local storage quota exceeded; continuing with session record.', storageErr);
+        showToast('Large attachment: browser history storage is full; upload will continue.', 'error');
+    }
     
     var attSummary = record.attendees.map(function(a){ return a.name + ' (' + a.idNum + ') - ' + a.company }).join(", ");
     if(attSummary.length > 45000) attSummary = attSummary.substring(0, 45000) + "... [TRUNCATED]";
@@ -1368,14 +1374,10 @@ async function saveRecord(){
         var base64 = pdfUri.split(',')[1].replace(/[\s\r\n\t\f\v\u00a0]/g, '');
         var filename = generatePdfFilename(record);
         
-        var attachParams = '';
-        if(record.attachment) {
-            attachParams = "&attachName=" + encodeURIComponent(record.attachment.name) +
-                           "&attachBase64=" + encodeURIComponent(record.attachment.base64) +
-                           "&attachMime=" + encodeURIComponent(record.attachment.mime);
-        }
-
-        var driveBody = "action=saveDrive&pdfBase64=" + encodeURIComponent(base64) + "&filename=" + encodeURIComponent(filename) + attachParams;
+        // The generated PDF already contains every supporting document page.
+        // Do not send the original base64 attachment again: it doubles the request
+        // size and can exceed Google Apps Script / proxy request limits.
+        var driveBody = "action=saveDrive&pdfBase64=" + encodeURIComponent(base64) + "&filename=" + encodeURIComponent(filename);
         
         var driveResp = await fetch(DRIVE_URL, { method: "POST", headers: {"Content-Type": "application/x-www-form-urlencoded"}, body: driveBody });
         var driveData = await driveResp.json();
@@ -1420,9 +1422,10 @@ async function uploadToDrive(id){
         document.body.classList.remove('pdf-capture');
         var base64=pdfUri.split(',')[1].replace(/[\s\r\n\t\f\v\u00a0]/g,'');
         var filename = generatePdfFilename(rec);
-        var attachParams='';
-        if(rec.attachment){attachParams="&attachName="+encodeURIComponent(rec.attachment.name)+"&attachBase64="+encodeURIComponent(rec.attachment.base64)+"&attachMime="+encodeURIComponent(rec.attachment.mime);}
-        var driveBody="action=saveDrive&pdfBase64="+encodeURIComponent(base64)+"&filename="+encodeURIComponent(filename)+attachParams;
+        // The generated PDF already contains every supporting document page.
+        // Sending the original base64 attachment again makes uploads unnecessarily
+        // large and is a common cause of incomplete Drive files.
+        var driveBody="action=saveDrive&pdfBase64="+encodeURIComponent(base64)+"&filename="+encodeURIComponent(filename);
         var resp=await fetch(DRIVE_URL,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:driveBody});
         var data=await resp.json();
         if(data.status==="success"){rec.driveUrl=data.fileUrl;rec.driveError=null;updateStorage(rec);hideLoading();showToast("Uploaded!")}
@@ -1432,26 +1435,45 @@ async function uploadToDrive(id){
 }
 
 function uploadCurrentToDrive(){if(currentPreviewId)uploadToDrive(currentPreviewId)}
-function updateStorage(rec){var i=records.findIndex(function(r){return r.id===rec.id});if(i!==-1){records[i]=rec;localStorage.setItem(STORAGE_KEY,JSON.stringify(records))}}
+function updateStorage(rec){
+    var i=records.findIndex(function(r){return r.id===rec.id});
+    if(i!==-1){
+        records[i]=rec;
+        try{localStorage.setItem(STORAGE_KEY,JSON.stringify(records));}
+        catch(storageErr){console.warn('Local storage quota exceeded while updating record.',storageErr);}
+    }
+}
 
 async function downloadRecord(id){
     var rec=records.find(function(r){return r.id===id});if(!rec)return;
     showLoading("Generating PDF...","");
+    var printable = document.getElementById('printableArea');
     try{
-        await populatePrintable(id);document.body.classList.add('pdf-capture');window.scrollTo(0,0);
-        await waitForImages(document.getElementById('printableArea'));
-        await new Promise(function(r){setTimeout(r,600)});
+        await populatePrintable(id);
+        document.body.classList.add('pdf-capture');
+        // Explicit inline visibility prevents blank exports when the source was hidden.
+        printable.style.display='block';
+        printable.style.visibility='visible';
+        window.scrollTo(0,0);
+        await waitForImages(printable);
+        await new Promise(function(r){requestAnimationFrame(function(){requestAnimationFrame(r);});});
         var fn = generatePdfFilename(rec);
         await html2pdf().set({
             margin:0,
             filename:fn,
             image:{type:'jpeg',quality:0.95},
-            html2canvas:{scale:2,useCORS:true,allowTaint:true,logging:false,backgroundColor:'#ffffff',onclone:function(d){var e=d.getElementById('printableArea');if(e)e.style.setProperty('display','block','important');}},
+            html2canvas:{scale:2,useCORS:true,allowTaint:true,logging:false,backgroundColor:'#ffffff',onclone:function(d){var e=d.getElementById('printableArea');if(e){e.style.setProperty('display','block','important');e.style.setProperty('visibility','visible','important');}}},
             jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
-            pagebreak:{mode:['css'],before:'.pdf-page-2, .p-attach-page'}
-        }).from(document.getElementById('printableArea')).save();
-        document.body.classList.remove('pdf-capture');hideLoading();
-    }catch(e){document.body.classList.remove('pdf-capture');hideLoading();showToast("PDF Error: "+e.message, "error")}
+            pagebreak:{mode:['css'],before:'.pdf-page-2, .pdf-attendance-page, .p-attach-page'}
+        }).from(printable).save();
+    }catch(e){
+        showToast("PDF Error: "+e.message,"error");
+    }finally{
+        printable.style.display='';
+        printable.style.visibility='';
+        document.body.classList.remove('pdf-capture');
+        hideLoading();
+    }
 }
 
 function downloadCurrentPDF(){if(currentPreviewId)downloadRecord(currentPreviewId)}
